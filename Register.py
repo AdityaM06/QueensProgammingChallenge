@@ -4,25 +4,27 @@ import os
 import config
 import Login
 
-#Function to register a user to a file
+
+# Function to register a user to a file
 def register_user():
-	username_info = config.username.get()
-	password_info = config.password.get()
+    username_info = config.username.get()
+    password_info = config.password.get()
 
-	#Saving username and password to file
-	f = open(str(username_info), 'w')
-	f.write(username_info + '\n')
-	f.write(password_info)
-	f.close()
+    # Saving username and password to file
+    f = open('users/' + str(username_info), 'w')
+    f.write(username_info + '\n')
+    f.write(password_info)
+    f.close()
 
-	#Clearing the entry field
-	config.username_entry.delete(0, END)
-	config.password_entry.delete(0, END)
+    # Clearing the entry field
+    config.username_entry.delete(0, END)
+    config.password_entry.delete(0, END)
 
-	#Confimring registration
-	Label(config.window, text = 'Sucuessfuly registered', bg = 'white', fg = 'green', font = ('Calibri', 12)).pack()
+    # Confimring registration
+    Label(config.window, text='Sucuessfuly registered', bg='white', fg='green', font=('Calibri', 12)).pack()
 
-#Function for registration screen
+
+# Function for registration screen
 def register():
     config.username = StringVar()
     config.password = StringVar()
@@ -30,16 +32,16 @@ def register():
     config.canvas.destroy()
     config.canvas = Canvas(
         config.window,
-        bg = "#FFFFFF",
-        height = 600,
-        width = 500,
-        bd = 0,
-        highlightthickness = 0,
-        relief = "ridge"
+        bg="#FFFFFF",
+        height=600,
+        width=500,
+        bd=0,
+        highlightthickness=0,
+        relief="ridge"
     )
 
-    config.canvas.place(x = 0, y = 0)
-    
+    config.canvas.place(x=0, y=0)
+
     config.canvas.create_text(
         50.0,
         50.0,
@@ -91,10 +93,10 @@ def register():
     config.password_entry = Entry(
         bd=0,
         bg="#FFFFFF",
-        fg= 'black',
+        fg='black',
         font=('Inter', '20'),
         highlightthickness=0,
-        textvariable = config.password
+        textvariable=config.password
     )
     config.password_entry.place(
         x=60.0,
@@ -113,10 +115,10 @@ def register():
     config.username_entry = Entry(
         bd=0,
         bg="#FFFFFF",
-        fg= 'black',
+        fg='black',
         font=('Inter', '20'),
         highlightthickness=0,
-        textvariable = config.username
+        textvariable=config.username
     )
     config.username_entry.place(
         x=60.0,

@@ -4,26 +4,26 @@ import config
 import Register
 
 
-
 def login_verify():
-	username1 = config.username_verify.get()
-	password1 = config.password_verify.get()
+    username1 = config.username_verify.get()
+    password1 = config.password_verify.get()
 
-	config.entry_1.delete(0, END)
-	config.entry_2.delete(0, END)
+    config.entry_1.delete(0, END)
+    config.entry_2.delete(0, END)
 
-	list_of_files = os.listdir()
+    list_of_files = os.listdir('users/')
 
-	if username1 in list_of_files:
-		f = open(username1, 'r')
-		verify = f.read().splitlines()
+    if username1 in list_of_files:
+        f = open('users/' + str(username1), 'r')
+        verify = f.read().splitlines()
 
-		if password1 in verify:
-			Label(config.window, text = 'Sucess!', fg = 'green', bg = 'white').place(x=60,y=570)
-		else:
-			Label(config.window, text = 'Incorrect password!', fg = 'red', bg = 'white').place(x=60,y=383)
-	else:
-		Label(config.window, text = 'Username not found!', fg = 'red', bg = 'white').place(x=60,y=235)
+        if password1 in verify:
+            Label(config.window, text='Success!', fg='green', bg='white').place(x=60, y=570)
+        else:
+            Label(config.window, text='Incorrect password!', fg='red', bg='white').place(x=60, y=383)
+    else:
+        Label(config.window, text='Username not found!', fg='red', bg='white').place(x=60, y=235)
+
 
 def login():
     config.username_verify = StringVar()
@@ -32,23 +32,23 @@ def login():
     config.canvas.destroy()
     config.canvas = Canvas(
         config.window,
-        bg = "#FFFFFF",
-        height = 600,
-        width = 500,
-        bd = 0,
-        highlightthickness = 0,
-        relief = "ridge"
+        bg="#FFFFFF",
+        height=600,
+        width=500,
+        bd=0,
+        highlightthickness=0,
+        relief="ridge"
     )
 
-    config.canvas.place(x = 0, y = 0)
+    config.canvas.place(x=0, y=0)
 
     config.canvas.create_text(
-    50.0,
-    50.0,
-    anchor="nw",
-    text="SIGN IN",
-    fill="#FF8787",
-    font=("Inter Medium", 50 * -1)
+        50.0,
+        50.0,
+        anchor="nw",
+        text="SIGN IN",
+        fill="#FF8787",
+        font=("Inter Medium", 50 * -1)
     )
 
     global button_image_1
@@ -96,10 +96,10 @@ def login():
     config.entry_1 = Entry(
         bd=0,
         bg="#FFFFFF",
-        fg= 'black',
+        fg='black',
         font=('Inter', '20'),
         highlightthickness=0,
-        textvariable = config.password_verify
+        textvariable=config.password_verify
     )
     config.entry_1.place(
         x=60.0,
@@ -119,10 +119,10 @@ def login():
     config.entry_2 = Entry(
         bd=0,
         bg="#FFFFFF",
-        fg= 'black',
+        fg='black',
         font=('Inter', '20'),
         highlightthickness=0,
-        textvariable = config.username_verify
+        textvariable=config.username_verify
     )
     config.entry_2.place(
         x=60.0,
