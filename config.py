@@ -1,0 +1,10 @@
+window = None
+canvas = None
+username = None
+password = None
+username_verify = None
+password_verify = None
+username_entry = None
+password_entry = None
+entry_1 = None
+entry_2 = None
