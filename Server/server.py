@@ -137,8 +137,10 @@ while inputs:
                             if not db.keyExists(username):
                                 send_msg(s, str(protocol.LOGIN_FAIL))
                             else:
-                                send_msg(s, str(protocol.LOGIN_SUCCESS))
-                                # TODO Send the user the data via 'pickle'
+                                if (db.getPassHash(username) != password): send_msg(s, str(protocol.LOGIN_FAIL))
+                                else: 
+                                    send_msg(s, str(protocol.LOGIN_SUCCESS))
+                                    # TODO Send the user the data via 'pickle'
 
 
                 
