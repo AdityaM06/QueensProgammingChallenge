@@ -1,0 +1,2 @@
+LOCALHOST = True
+PORT = 9848
