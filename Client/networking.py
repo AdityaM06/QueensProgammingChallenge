@@ -3,6 +3,7 @@ import time
 from cipher import Cipher
 import protocol
 import pickle
+from math import ceil
 
 class Network:
     
@@ -54,10 +55,25 @@ class Network:
         # Read all pieces and put together
         buff = b''
         for i in range(num_blocks):
-            buff += self.cipher.decrypt ( self._sock.recv(4096) )
+            buff += self.cipher.decrypt ( self._sock.recv(1024) )
         # Return de-serialized
         return pickle.loads( buff )
     
+    """ Sends updated data to be stored on server """
+    def updatePersonalData(self, data):
+        # Turn data into bytes
+        out = pickle.dumps ( data )
+        # Let server know we are trying to update, along the number of blocks to receive it
+        self.send(f"{protocol.UPDATE_INFO}:" + str ( ceil ( len(out) / self.cipher._max_msg ) ) )
+
+        while out:
+            # Cut portion to be encrypted
+            buff = out[:self.cipher._max_msg]
+            out = out[self.cipher._max_msg:]
+            # Send portion to Server
+            time.sleep(0.005)
+            self._sock.send( self.cipher.encrypt ( buff ) )
+
     """ Sends request to register to server, username and password should be well regexed """
     def register(self, username : str, password : str):
         out = str( protocol.REGISTER_REQ ) + ":" + username + "," + password
@@ -75,31 +91,51 @@ class Network:
 
     """ Send login request to server with credentials, returns server response code """
     def login(self, username : str, password : str):
+        # Formulate request for server
         out = str( protocol.LOGIN_REQ ) + ":" + username + "," + password
         self.send(out)
         response = int ( self.recv() )
-        
+
+        # Print appropriate response
         match (response):
             case protocol.LOGIN_FAIL:
                 print("[LOGIN] Failed!")
+                response, None
 
             case protocol.LOGIN_SUCCESS:
                 print("[LOGIN] Successfull!")
-        
-        return response
+                return response, self.recvPersonalData()
+    
+
+        return response, None        
 
 
+
+
+
+#----------------------------------+
+# ╭━━━┳━╮╭━┳━━━┳━╮╭━┳━━━┳╮╱╱╭━━━╮  |
+# ┃╭━━┻╮╰╯╭┫╭━╮┃┃╰╯┃┃╭━╮┃┃╱╱┃╭━━╯  |
+# ┃╰━━╮╰╮╭╯┃┃╱┃┃╭╮╭╮┃╰━╯┃┃╱╱┃╰━━╮  |
+# ┃╭━━╯╭╯╰╮┃╰━╯┃┃┃┃┃┃╭━━┫┃╱╭┫╭━━╯  |
+# ┃╰━━┳╯╭╮╰┫╭━╮┃┃┃┃┃┃┃╱╱┃╰━╯┃╰━━╮  |
+# ╰━━━┻━╯╰━┻╯╱╰┻╯╰╯╰┻╯╱╱╰━━━┻━━━╯  |
+#----------------------------------+
 
 net = Network()
 net.connect_to("localhost", 9848)
 
 time.sleep(2)
 
-# response = net.register("Test1", "NewPass")
-response = net.login("Test1", "NewPass")
-# response = net.login("Test1", "NewPass1")
-if response == protocol.LOGIN_SUCCESS:
-    data = net.recvPersonalData()
-    print(data)
+# response, data = net.register("Test1", "NewPass")                    # Register (user already exists?)
+response, data = net.login("Test1", "NewPass")                       # Correct Password login
+# response, data = net.login("Test1", "NewPass1")                      # Wrong password login
 
+print(data)
 time.sleep(1)
+
+if response == protocol.LOGIN_SUCCESS:
+    data[0] = "Vaccinated"
+    net.updatePersonalData(data)
+
+    time.sleep(1)

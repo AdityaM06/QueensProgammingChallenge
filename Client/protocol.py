@@ -12,3 +12,6 @@ LOGIN_REQ = 3
 LOGIN_FAIL = 4
 """ Successfully logged in """
 LOGIN_SUCCESS = 5
+
+""" Updating personal info """
+UPDATE_INFO = 6

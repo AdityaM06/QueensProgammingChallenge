@@ -36,11 +36,13 @@ class ClientBundle:
     def __init__(self, conn, cipher):
         self.conn = conn
         self.cipher = cipher
+        self.username = ""
     
     def fileno(self): return self.conn.fileno()
     def send(self, msg): self.conn.send(self.cipher.encrypt(msg))
     def recv(self, bytes): return cipher.decrypt(self.conn.recv(bytes)).decode(FORMAT)
     def close(self): self.conn.close()
+    def logged_in(self): return True if self.username != "" else False
 
 
 """ Disconnect client and remove traces """
@@ -84,6 +86,20 @@ def send_byte_dump(s, out : bytes):
         # Add portion to queue to send
         send_msg(s, buff, encode=False)
 
+""" Receives portions of messages and stiches them together """
+def recv_byte_dump(s, num_blocks : int):
+    if config.VERBOSE_OUTPUT: print(f"[DUMP] Number of Blocks: {num_blocks}")
+    # Must wait until data is received
+    s.conn.settimeout(0.3)
+    # Read all pieces and put together
+    buff = b''
+    for i in range(num_blocks):
+        buff += s.cipher.decrypt ( s.conn.recv(1024) )
+    # Fix socket for non-blocking
+    s.conn.setblocking(False)
+    # Return de-serialized
+    return pickle.loads( buff )
+
 #==================================================================================================
 
 
@@ -108,7 +124,7 @@ while inputs:
             client = ClientBundle(connection, cipher)
 
             # Set to non-blocking IO
-            connection.setblocking(0)
+            connection.setblocking(False)
             # Add to list of connected clients
             inputs.append(client)
             # Add queue for client
@@ -162,11 +178,26 @@ while inputs:
                                     # Let the user know login was successfull so they can recv the buffer
                                     send_msg(s, str(protocol.LOGIN_SUCCESS))
                                     print(f"[LOGIN] Client \"{username}\" successfully logged in")
+                                    # Set user as logged in locally
+                                    s.username = username
                                     # Serialize using pickle
                                     out = pickle.dumps( db.keyDump ( username ) )
                                     # Send data
                                     send_byte_dump(s, out)
                                     print(f"[LOGIN] Sending client's user data...")
+
+                        case protocol.UPDATE_INFO:
+                            # Receive what client has to send
+                            new_data = recv_byte_dump(s, int(data))
+
+                            # Only update info if client is logged in
+                            if s.logged_in():
+                                if config.VERBOSE_OUTPUT: print(f"[SERVER] Got new user data: {new_data}")
+                                print(f"[SERVER] Updating user data for \"{s.username}\"")
+                                db.updateKey(s.username, new_data)
+
+                            else:
+                                print("[SERVER] Client may not update data before logging in")
 
                                     
 
@@ -175,14 +206,14 @@ while inputs:
                 
 
                 else:
-                    # Disconnect client
+                    # Disconnect client, can't send nothing
                     disconnect(s)
-
+            
             except rsa.pkcs1.DecryptionError:
-                # Can't decrypt blank msg
+                # Can't decrypt bad message
                 disconnect(s)
             except ConnectionResetError:
-                # Client disconnected
+                # Client force quit
                 disconnect(s)
 
             except Exception as e:
