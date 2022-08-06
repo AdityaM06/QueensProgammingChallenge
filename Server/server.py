@@ -1,9 +1,10 @@
-import select, socket, traceback
+import select, socket, traceback, time
 from queue import Queue
 from database import Database
 from cipher import Cipher
 import config, protocol
-import hashlib, rsa
+import hashlib, rsa, pickle
+from math import ceil
 
 # Constant for sending messages
 FORMAT = 'utf-8'
@@ -51,7 +52,7 @@ def disconnect(s):
     inputs.remove(s)
     s.close()
     del message_queues[s]
-    print("[CLIENT] Disconnected...")
+    print("[CLIENT] Disconnected...\n")
 
 
 """ Return hash string for given string """
@@ -60,15 +61,28 @@ def compute_hash(data : str) -> str:
 
 
 """ Sets everything up for message to be sent to socket """
-def send_msg(s, msg):
+def send_msg(s, msg, encode = True):
     global message_queues, outputs
 
     # Add msg to queue
-    message_queues[s].enqueue(msg.encode(FORMAT))
+    if encode: message_queues[s].enqueue(msg.encode(FORMAT))
+    else: message_queues[s].enqueue(msg)
     
     # Add socket to write list
     if s not in outputs:
         outputs.append(s)
+
+""" Cuts message into portions to be encrypted and sent, allows for larger messages """
+def send_byte_dump(s, out : bytes):
+    # Send number of blocks for receiver
+    send_msg(s, str ( ceil ( len(out) / s.cipher._max_msg ) ) )
+
+    while out:
+        # Cut portion to be encrypted
+        buff = out[:s.cipher._max_msg]
+        out = out[s.cipher._max_msg:]
+        # Add portion to queue to send
+        send_msg(s, buff, encode=False)
 
 #==================================================================================================
 
@@ -88,6 +102,7 @@ while inputs:
             new_key = connection.recv(2048).decode(FORMAT)
             cipher.addKeyFromString(new_key)
             connection.send(cipher.getPublicKey().encode(FORMAT))
+            if config.VERBOSE_OUTPUT: print("[CLIENT KEY] " + str(cipher.encryptKey)); print("[SERVER KEY] " + str(cipher.publicKey))
             
             # Bundle connection with cipher
             client = ClientBundle(connection, cipher)
@@ -107,9 +122,8 @@ while inputs:
                 data = s.recv(2048)
 
                 if data:
-                    
                     # Print msg
-                    print(f"[CLIENT] {data}")
+                    if config.VERBOSE_OUTPUT: print(f"[CLIENT MESSAGE] {data}")
                     
                     #Get code for processing
                     op_code = int ( data.split(":")[0] )
@@ -124,10 +138,13 @@ while inputs:
                             # Cannot register, user already exists
                             if db.keyExists(username):
                                 send_msg(s, str(protocol.REGISTER_FAIL))
+                                print(f"[REGISTER] Client failed to register, user \"{username}\" already exists")
                             else:
                                 # Add to database using default values
                                 db.addKey(username, [password] + [' ', ' ', ' ', ' '])
                                 send_msg(s, str(protocol.REGISTER_SUCCESS))
+                                print(f"[REGISTER] New Client registered: {username}")
+
 
                         case protocol.LOGIN_REQ:
                             # Seperate username and password
@@ -136,11 +153,23 @@ while inputs:
                             # Cannot login, user doesn't exist
                             if not db.keyExists(username):
                                 send_msg(s, str(protocol.LOGIN_FAIL))
+                                print(f"[LOGIN] Client failed to login, user \"{username}\" does not exist")
                             else:
-                                if (db.getPassHash(username) != password): send_msg(s, str(protocol.LOGIN_FAIL))
-                                else: 
+                                if (db.getPassHash(username) != password):
+                                    send_msg(s, str(protocol.LOGIN_FAIL))
+                                    print(f"[LOGIN] Client failed to login, user \"{username}\" has wrong password")
+                                else:
+                                    # Let the user know login was successfull so they can recv the buffer
                                     send_msg(s, str(protocol.LOGIN_SUCCESS))
-                                    # TODO Send the user the data via 'pickle'
+                                    print(f"[LOGIN] Client \"{username}\" successfully logged in")
+                                    # Serialize using pickle
+                                    out = pickle.dumps( db.keyDump ( username ) )
+                                    # Send data
+                                    send_byte_dump(s, out)
+                                    print(f"[LOGIN] Sending client's user data...")
+
+                                    
+
 
 
                 
@@ -150,8 +179,12 @@ while inputs:
                     disconnect(s)
 
             except rsa.pkcs1.DecryptionError:
-                # Disconnect client
+                # Can't decrypt blank msg
                 disconnect(s)
+            except ConnectionResetError:
+                # Client disconnected
+                disconnect(s)
+
             except Exception as e:
                 # Display error
                 print(f"[CLIENT ERROR] {e}")
@@ -161,17 +194,21 @@ while inputs:
 
 
     for s in writable:
+        
         if ( not message_queues[s].isEmpty() ):
             # Get next message in queue
             next_msg = message_queues[s].dequeue()
-
+                            
             try:
+                #Bugs out when you send things too fast
+                time.sleep(0.005)
                 # No error, send message
-                print(f"[CLIENT] Sending data: {next_msg}")
+                if config.VERBOSE_OUTPUT: print(f"[SERVER] Sending data: {next_msg}")
                 s.send(next_msg)
 
             except Exception as e:
                 print(f"[SERVER] Sending failed! {e}")
+                print(traceback.format_exc())
                 outputs.remove(s)
 
         else:

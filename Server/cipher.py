@@ -4,8 +4,11 @@ class Cipher:
 
     """ Constructor """
     def __init__(self):
+        # Constant
+        self._N_BITS = 256
         # Make keys
-        self.publicKey, self.privateKey = rsa.newkeys(256)
+        self.publicKey, self.privateKey = rsa.newkeys(self._N_BITS)
+        self._max_msg = self._N_BITS // 8 - 11
         # Hold another public key for decryption
         self.encryptKey = None
 

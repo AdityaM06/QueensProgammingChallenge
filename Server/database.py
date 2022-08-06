@@ -1,4 +1,5 @@
 import os, time
+import config
 
 class Database:
 
@@ -30,7 +31,7 @@ class Database:
             # Loop through each line
             while True:
                 # Read line, quit if its empty
-                line = f.readline()
+                line = f.readline().replace("\n", "")
                 if not line: break
                 
                 # Format data and add to dict
@@ -46,8 +47,9 @@ class Database:
     def keyExists(self, key : str) -> bool:
         return key in self._data
 
+    """ Writes new entry to database given a key and its data """
     def addKey(self, key : str, data):
-        print(f"[DATABASE] Adding new data: ({key}, {data})")
+        if config.VERBOSE_OUTPUT: print(f"[DATABASE] Adding new data: ({key}, {data})")
 
         # Write data locally
         self._data[key] = data
@@ -59,6 +61,11 @@ class Database:
             for d in data: f.write(f",{d}")
             f.write("\n")
 
+    """ Returns all data on the key on database """
+    def keyDump(self, key : str):
+        if not self.keyExists(key): return None
+        if config.VERBOSE_OUTPUT: print(f"[DATABASE] Data for user \"{key}\" : " + str(self._data[key][1:]))
+        return self._data[key][1:]
 
 
     """ Returns the PassHash of the User """
