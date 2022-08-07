@@ -121,7 +121,7 @@ def login():
     window.password_entry.place(
         x=60.0,
         y=333.0,
-        width=300.0,
+        width=320.0,
         height=30.0
     )
 
@@ -144,6 +144,6 @@ def login():
     window.username_entry.place(
         x=60.0,
         y=185.0,
-        width=300.0,
+        width=380.0,
         height=30.0
     )

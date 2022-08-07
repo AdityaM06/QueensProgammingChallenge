@@ -12,57 +12,57 @@ def dashboard():
 
 
     canvas = Canvas(
-        window.window,
-        bg = "#FFFFFF",
-        height = 1080,
-        width = 1920,
-        bd = 0,
-        highlightthickness = 0,
-        relief = "ridge"
+            window.window,
+            bg = "#FFFFFF",
+            height = 1080,
+            width = 1920,
+            bd = 0,
+            highlightthickness = 0,
+            relief = "ridge"
     )
 
     canvas.place(x = 0, y = 0)
     canvas.create_text(
-        150.0,
-        30.0,
+        106.0,
+        52.99999999999999,
         anchor="nw",
         text="myHealth Dashboard",
         fill="#FF8888",
-        font=("Inter Medium", 80 * -1)
+        font=("Inter Medium", 52 * -1)
     )
 
     canvas.create_rectangle(
-        150.0,
-        413.0,
-        1000.0,
-        963.0,
+        106.0,
+        304.84478759765625,
+        664.9244384765625,
+        666.5017700195312,
         fill="#FFFFFF",
-        outline="#FF8888")
+        outline="")
 
     canvas.create_text(
-        434.0,
-        318.0,
+        292.74652099609375,
+        242.37673950195312,
         anchor="nw",
         text="Health Card",
         fill="#FF8888",
-        font=("Inter Regular", 50 * -1)
+        font=("Inter Regular", 32 * -1)
     )
 
     canvas.create_rectangle(
-        1187.0,
-        413.0,
-        1713.0,
-        963.0,
+        770.0,
+        305.0,
+        1173.0,
+        667.0,
         fill="#FFFFFF",
-        outline="#FF8888")
+        outline="")
 
     canvas.create_text(
-        1256.0,
-        318.0,
+        850.0,
+        242.0,
         anchor="nw",
         text="Emergency Info",
         fill="#FF8888",
-        font=("Inter Regular", 50 * -1)
+        font=("Inter Regular", 32 * -1)
     )
 
     global information_button_image
@@ -76,12 +76,11 @@ def dashboard():
         relief="flat"
     )
     information_button.place(
-        x=1367.0,
-        y=140.0,
-        width=405.0,
-        height=90.0
+        x=906.2482299804688,
+        y=125.3313980102539,
+        width=266.31109619140625,
+        height=59.18022918701172
     )
-
 
     global vaccine_button_image
     vaccine_button_image = PhotoImage(
@@ -94,16 +93,15 @@ def dashboard():
         relief="flat"
     )
     vaccine_button.place(
-        x=962.0,
-        y=140.0,
-        width=405.0,
-        height=90.0
+        x=639.9371948242188,
+        y=125.3313980102539,
+        width=266.31103515625,
+        height=59.18022918701172
     )
-
 
     global appointments_button_image
     appointments_button_image = PhotoImage(
-        file='assets/appointment_button.png')
+        file='assets/appointments_button.png')
     appointments_button = Button(
         image=appointments_button_image,
         borderwidth=0,
@@ -112,10 +110,10 @@ def dashboard():
         relief="flat"
     )
     appointments_button.place(
-        x=557.0,
-        y=140.0,
-        width=405.0,
-        height=90.0
+        x=373.62615966796875,
+        y=125.3313980102539,
+        width=266.31103515625,
+        height=59.18022918701172
     )
 
     global records_button_image
@@ -129,19 +127,10 @@ def dashboard():
         relief="flat"
     )
     records_button.place(
-        x=152.0,
-        y=140.0,
-        width=405.0,
-        height=90.0
-    )
-
-    canvas.create_text(
-        1782.0,
-        1036.0,
-        anchor="nw",
-        text="Upload",
-        fill="#FF8888",
-        font=("Inter Regular", 20 * -1)
+        x=107.31511688232422,
+        y=125.3313980102539,
+        width=266.31103515625,
+        height=59.18022918701172
     )
 
     global upload_button_image
@@ -155,10 +144,19 @@ def dashboard():
         relief="flat"
     )
     upload_button.place(
-        x=1782.0,
-        y=942.0,
-        width=88.0,
-        height=88.0
+        x=29.0,
+        y=616.0,
+        width=57.8651123046875,
+        height=57.8651123046875
+    )
+
+    canvas.create_text(
+        28.8651123046875,
+        674.3070068359375,
+        anchor="nw",
+        text="Upload",
+        fill="#FF8888",
+        font=("Inter Regular", 13 * -1)
     )
     window.window.resizable(True, True)
     window.window.mainloop()

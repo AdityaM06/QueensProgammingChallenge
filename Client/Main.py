@@ -14,7 +14,7 @@ window.canvas = Canvas(
     window.window,
     bg="#FFFFFF",
     height=config.HEIGHT,
-    width=confiAddeg.WIDTH,
+    width=config.WIDTH,
     bd=0,
     highlightthickness=0,
     relief="ridge"
