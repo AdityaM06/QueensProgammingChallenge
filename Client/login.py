@@ -3,6 +3,14 @@ import os
 import window, config, register
 import traceback
 
+
+def toggle_password_visible():
+    if window.password_entry.cget('show') == '•':
+        window.password_entry.config(show='')
+    else:
+        window.password_entry.config(show='•')
+
+
 def login_verify():
     username = window.username_verify.get()
     password = window.password_verify.get()
@@ -74,6 +82,23 @@ def login():
         y=520.0,
         width=107.0,
         height=24.0
+    )
+
+    global eye_button_image
+    eye_button_image = PhotoImage(
+        file='assets/eye.png')
+    password_toggle_button = Button(
+        image=eye_button_image,
+        borderwidth=0,
+        highlightthickness=0,
+        command=toggle_password_visible,
+        relief="flat"
+    )
+    password_toggle_button.place(
+        x=390.0,
+        y=325.0,
+        width=50,
+        height=50
     )
 
     global pass_entry_image
