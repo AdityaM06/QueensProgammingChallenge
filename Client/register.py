@@ -7,7 +7,7 @@ def register_user():
     username = window.username_verify.get()
     password = window.password_verify.get()
 
-    print(f"[LOGIN] User: {username}    Pass: {password}")
+    print(f"[REGISTER] User: {username}    Pass: {password}")
 
     """
     Label(window.window, text='Sucuessfuly registered', bg='white', fg='green', font=('Calibri', 12)).pack()
