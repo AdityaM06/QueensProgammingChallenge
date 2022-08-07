@@ -1,5 +1,5 @@
 import config, window
-import login, register
+import login
 from tkinter import *
 
 window.window = Tk()
@@ -14,7 +14,7 @@ window.canvas = Canvas(
     window.window,
     bg="#FFFFFF",
     height=config.HEIGHT,
-    width=config.WIDTH,
+    width=confiAddeg.WIDTH,
     bd=0,
     highlightthickness=0,
     relief="ridge"

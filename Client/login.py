@@ -1,6 +1,6 @@
 from tkinter import *
 import os
-import window, config, register
+import window, config, register, dashboard
 import traceback
 
 
@@ -16,7 +16,8 @@ def login_verify():
     password = window.password_verify.get()
 
     print(f"[LOGIN] User: {username}    Pass: {password}")
-    
+
+    dashboard.dashboard()
     """
     Label(window.window, text='Success!', fg='green', bg='white').place(x=60, y=570)
     Label(window.window, text='Incorrect password!', fg='red', bg='white').place(x=60, y=383)
