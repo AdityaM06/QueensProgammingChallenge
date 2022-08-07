@@ -4,6 +4,13 @@ import config
 import Register
 
 
+def toggle_password_visible():
+    if config.entry_1.cget('show') == '•':
+        config.entry_1.config(show='')
+    else:
+        config.entry_1.config(show='•')
+
+
 def login_verify():
     username1 = config.username_verify.get()
     password1 = config.password_verify.get()
@@ -83,6 +90,23 @@ def login():
         y=520.0,
         width=107.0,
         height=24.0
+    )
+
+    global button_image_3
+    button_image_3 = PhotoImage(
+        file='assets/eye.png')
+    button_3 = Button(
+        image=button_image_3,
+        borderwidth=0,
+        highlightthickness=0,
+        command=toggle_password_visible,
+        relief="flat"
+    )
+    button_3.place(
+        x=390.0,
+        y=325.0,
+        width=50,
+        height=50
     )
 
     global entry_image_1
