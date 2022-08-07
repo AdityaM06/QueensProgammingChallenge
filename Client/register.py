@@ -148,3 +148,5 @@ def register():
         width=50,
         height=50
     )
+
+    toggle_password_visible()

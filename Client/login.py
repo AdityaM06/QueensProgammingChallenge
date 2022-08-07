@@ -161,3 +161,5 @@ def login():
         width=50,
         height=50
     )
+
+    toggle_password_visible()
