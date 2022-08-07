@@ -7,21 +7,26 @@ def login_verify():
     # Get user input
     username = window.username_verify.get()
     password = window.password_verify.get()
+    # Comma and empty string check
+    if "," in username or "," in password:
+        Label(window.window, text='No commas allowed!', fg='red', bg='white',font="MS_Sans_Serif 14").place(x=config.WIDTH // 2, y=570, anchor="center")
+    elif username == "" or password == "":
+        Label(window.window, text='Email and password required!', fg='red', bg='white', font="MS_Sans_Serif 14").place(x=config.WIDTH // 2, y=570, anchor="center")
+    else:
+        # Send request to server
+        print(f"[LOGIN] User: {username}    Pass: {password}")
+        response, data = config.NET.login(username, password)
 
-    # Send request to server
-    print(f"[LOGIN] User: {username}    Pass: {password}")
-    response, data = config.NET.login(username, password)
-
-    # Process response
-    if response == protocol.LOGIN_FAIL:
-        # Display error to user
-        Label(window.window, text='Login Failed! Wrong password? User doesn\'t exist?', fg='red', bg='white', font="MS_Sans_Serif 14").place(x=config.WIDTH//2, y=570, anchor="center")
-    elif response == protocol.LOGIN_SUCCESS:
-        # Go to dashboard
-        Label(window.window, text='Successfully Signed in!', fg='green', bg='white', font="MS_Sans_Serif 20").place(x=config.WIDTH//2, y=570, anchor="center")
-        config.DATA = data
-        print(f"[DATA] {config.DATA}")
-        dashboard_4.dashboard()
+        # Process response
+        if response == protocol.LOGIN_FAIL:
+            # Display error to user
+            Label(window.window, text='Login Failed! Wrong password? User doesn\'t exist?', fg='red', bg='white', font="MS_Sans_Serif 14").place(x=config.WIDTH//2, y=570, anchor="center")
+        elif response == protocol.LOGIN_SUCCESS:
+            # Go to dashboard
+            Label(window.window, text='Successfully Signed in!', fg='green', bg='white', font="MS_Sans_Serif 20").place(x=config.WIDTH//2, y=570, anchor="center")
+            config.DATA = data
+            print(f"[DATA] {config.DATA}")
+            dashboard_4.dashboard()
 
 
     # """
@@ -161,5 +166,3 @@ def login():
         width=50,
         height=50
     )
-
-    toggle_password_visible()
