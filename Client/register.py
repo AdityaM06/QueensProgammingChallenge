@@ -1,18 +1,30 @@
 from tkinter import *
 import config, window, login
-import traceback
+import protocol
 
 # Function to register a user to a file
 def register_user():
+    # Get user input
     username = window.username_verify.get()
     password = window.password_verify.get()
 
+    # Send request to Server
     print(f"[REGISTER] User: {username}    Pass: {password}")
+    response = config.NET.register(username, password)
 
-    """
-    Label(window.window, text='Sucuessfuly registered', bg='white', fg='green', font=('Calibri', 12)).pack()
-    """
+    # Process response
+    if response == protocol.REGISTER_SUCCESS:
+        # Display error to user
+        Label(window.window, text='Successfully Registered! Please Sign in', fg='green', bg='white', font="MS_Sans_Serif 20").place(x=config.WIDTH//2, y=570, anchor="center")
+    elif response == protocol.REGISTER_FAIL:
+        Label(window.window, text='Failed to Register, account already exists?', fg='red', bg='white', font="MS_Sans_Serif 16").place(x=config.WIDTH//2, y=570, anchor="center")
+        pass
 
+def toggle_password_visible():
+    if window.password_entry.cget('show') == '•':
+        window.password_entry.config(show='')
+    else:
+        window.password_entry.config(show='•')
 
 # Function for registration screen
 def register():
@@ -117,4 +129,22 @@ def register():
         y=185.0,
         width=300.0,
         height=30.0
+    )
+
+    global eye_button_image
+    eye_button_image = PhotoImage(
+        file='assets/eye.png')
+    password_toggle_button = Button(
+        image=eye_button_image,
+        borderwidth=0,
+        background="white",
+        highlightthickness=0,
+        command=toggle_password_visible,
+        relief="flat"
+    )
+    password_toggle_button.place(
+        x=390.0,
+        y=325.0,
+        width=50,
+        height=50
     )

@@ -1,5 +1,5 @@
 import socket
-import time
+import time, threading
 from cipher import Cipher
 import protocol
 import pickle
@@ -16,14 +16,24 @@ class Network:
         # Cipher for encrypted traffic
         self.cipher = Cipher()
 
+        # self.status is one of:
+        #   - 0         (Not connected)
+        #   - 1         (Failed to connect)
+        #   - 2         (Connected)
+        self.status = 0
+
 
 
     """ Connects to server, must be done before all other operations """
     def connect_to(self, ip : str, port : int):
-        # Connect the socket to the port where the server is listening
-        print( f"[CONNECTING] IP: {ip} \t PORT: {port}" )
-        self._sock.connect((ip, port))
-        self.handshake()
+        try:
+            # Connect the socket to the port where the server is listening
+            print( f"[CONNECTING] IP: {ip} \t PORT: {port}" )
+            self._sock.connect((ip, port))
+            self.handshake()
+            self.status = 2
+        except:
+            self.status = 1
 
 
     """ Exchanges keys with Server after connecting """
@@ -109,8 +119,21 @@ class Network:
 
         return response, None        
 
+class MockNetwork:
+    def __init__(self, b : bool): self.status = 2 if b else 1
+    def connect_to(self, ip : str, port : int): pass
+    def handshake(self): pass
+    def send(self, msg : str): pass    
+    def recv(self): pass
+    def recvPersonalData(self): pass
+    def updatePersonalData(self, data): pass
+    def register(self, username : str, password : str): pass
+    def login(self, username : str, password : str): pass
+        
 
-
+def run_background(func, *_args):
+    t = threading.Thread(target=func, args=_args)
+    t.start()
 
 
 #----------------------------------+
@@ -122,12 +145,13 @@ class Network:
 # ╰━━━┻━╯╰━┻╯╱╰┻╯╰╯╰┻╯╱╱╰━━━┻━━━╯  |
 #----------------------------------+
 
+"""
 net = Network()
 net.connect_to("localhost", 9848)
 
 time.sleep(2)
 
-# response, data = net.register("Test1", "NewPass")                    # Register (user already exists?)
+# response = net.register("Test1", "NewPass")                    # Register (user already exists?)
 response, data = net.login("Test1", "NewPass")                       # Correct Password login
 # response, data = net.login("Test1", "NewPass1")                      # Wrong password login
 
@@ -139,3 +163,4 @@ if response == protocol.LOGIN_SUCCESS:
     net.updatePersonalData(data)
 
     time.sleep(1)
+"""

@@ -1,8 +1,34 @@
 from tkinter import *
-import os
-import window, config, register, dashboard
-import traceback
+import window, config, register, dashboard_4
+from networking import run_background
+import protocol
 
+def login_verify():
+    # Get user input
+    username = window.username_verify.get()
+    password = window.password_verify.get()
+
+    # Send request to server
+    print(f"[LOGIN] User: {username}    Pass: {password}")
+    response, data = config.NET.login(username, password)
+
+    # Process response
+    if response == protocol.LOGIN_FAIL:
+        # Display error to user
+        Label(window.window, text='Login Failed! Wrong password? User doesn\'t exist?', fg='red', bg='white', font="MS_Sans_Serif 14").place(x=config.WIDTH//2, y=570, anchor="center")
+    elif response == protocol.LOGIN_SUCCESS:
+        # Go to dashboard
+        Label(window.window, text='Successfully Signed in!', fg='green', bg='white', font="MS_Sans_Serif 20").place(x=config.WIDTH//2, y=570, anchor="center")
+        config.DATA = data
+        print(f"[DATA] {config.DATA}")
+        dashboard_4.dashboard()
+
+
+    # """
+    # Label(window.window, text='Success!', fg='green', bg='white', font="MS_Sans_Serif 20").place(x=config.WIDTH//2, y=570, anchor="center")
+    # Label(window.window, text='Incorrect password!', fg='red', bg='white').place(x=60, y=383)
+    # Label(window.window, text='Username not found!', fg='red', bg='white').place(x=60, y=235)
+    # """
 
 def toggle_password_visible():
     if window.password_entry.cget('show') == '•':
@@ -11,23 +37,10 @@ def toggle_password_visible():
         window.password_entry.config(show='•')
 
 
-def login_verify():
-    username = window.username_verify.get()
-    password = window.password_verify.get()
-
-    print(f"[LOGIN] User: {username}    Pass: {password}")
-
-    dashboard.dashboard()
-    """
-    Label(window.window, text='Success!', fg='green', bg='white').place(x=60, y=570)
-    Label(window.window, text='Incorrect password!', fg='red', bg='white').place(x=60, y=383)
-    Label(window.window, text='Username not found!', fg='red', bg='white').place(x=60, y=235)
-    """
-
-
 def login():
     window.username_verify = StringVar()
     window.password_verify = StringVar()
+    
 
     window.canvas.destroy()
     window.canvas = Canvas(
@@ -85,23 +98,6 @@ def login():
         height=24.0
     )
 
-    global eye_button_image
-    eye_button_image = PhotoImage(
-        file='assets/eye.png')
-    password_toggle_button = Button(
-        image=eye_button_image,
-        borderwidth=0,
-        highlightthickness=0,
-        command=toggle_password_visible,
-        relief="flat"
-    )
-    password_toggle_button.place(
-        x=390.0,
-        y=325.0,
-        width=50,
-        height=50
-    )
-
     global pass_entry_image
     pass_entry_image = PhotoImage(
         file='assets/pass_entry.png')
@@ -121,7 +117,7 @@ def login():
     window.password_entry.place(
         x=60.0,
         y=333.0,
-        width=320.0,
+        width=300.0,
         height=30.0
     )
 
@@ -144,6 +140,24 @@ def login():
     window.username_entry.place(
         x=60.0,
         y=185.0,
-        width=380.0,
+        width=300.0,
         height=30.0
+    )
+
+    global eye_button_image
+    eye_button_image = PhotoImage(
+        file='assets/eye.png')
+    password_toggle_button = Button(
+        image=eye_button_image,
+        borderwidth=0,
+        background="white",
+        highlightthickness=0,
+        command=toggle_password_visible,
+        relief="flat"
+    )
+    password_toggle_button.place(
+        x=390.0,
+        y=325.0,
+        width=50,
+        height=50
     )

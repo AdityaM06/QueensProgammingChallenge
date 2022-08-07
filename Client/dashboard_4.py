@@ -12,13 +12,13 @@ def dashboard():
 
 
     canvas = Canvas(
-            window.window,
-            bg = "#FFFFFF",
-            height = 1080,
-            width = 1920,
-            bd = 0,
-            highlightthickness = 0,
-            relief = "ridge"
+        window.window,
+        bg = "#FFFFFF",
+        height = 720,
+        width = 1280,
+        bd = 0,
+        highlightthickness = 0,
+        relief = "ridge"
     )
 
     canvas.place(x = 0, y = 0)
@@ -37,7 +37,7 @@ def dashboard():
         664.9244384765625,
         666.5017700195312,
         fill="#FFFFFF",
-        outline="")
+        outline="#FF8888")
 
     canvas.create_text(
         292.74652099609375,
@@ -54,7 +54,7 @@ def dashboard():
         1173.0,
         667.0,
         fill="#FFFFFF",
-        outline="")
+        outline="#FF8888")
 
     canvas.create_text(
         850.0,
@@ -151,7 +151,7 @@ def dashboard():
     )
 
     canvas.create_text(
-        28.8651123046875,
+        34.8651123046875,
         674.3070068359375,
         anchor="nw",
         text="Upload",

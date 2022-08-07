@@ -115,6 +115,7 @@ while inputs:
 
             # Complete cipher handshake
             cipher = Cipher()
+            connection.setblocking(True)
             new_key = connection.recv(2048).decode(FORMAT)
             cipher.addKeyFromString(new_key)
             connection.send(cipher.getPublicKey().encode(FORMAT))
