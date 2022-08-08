@@ -10,9 +10,9 @@ def register_user():
 
     # Comma and empty string check
     if "," in username or "," in password:
-        Label(window.window, text='No commas allowed!', fg='red', bg='white', font="MS_Sans_Serif 14").place(x=config.WIDTH // 2, y=570, anchor="center")
+        Label(window.window, text='No commas allowed!', fg='red', bg='white', font="MS_Sans_Serif 14").place(x=config.WIDTH // 2, y=570, width=500, anchor="center")
     elif username == "" or password == "":
-        Label(window.window, text='Email and password required!', fg='red', bg='white', font="MS_Sans_Serif 14").place(x=config.WIDTH // 2, y=570, anchor="center")
+        Label(window.window, text='Email and password required!', fg='red', bg='white', font="MS_Sans_Serif 14").place(x=config.WIDTH // 2, y=570, width=500, anchor="center")
     else:
         # Send request to Server
         print(f"[REGISTER] User: {username}    Pass: {password}")
