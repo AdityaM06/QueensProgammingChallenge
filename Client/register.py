@@ -8,17 +8,23 @@ def register_user():
     username = window.username_verify.get()
     password = window.password_verify.get()
 
-    # Send request to Server
-    print(f"[REGISTER] User: {username}    Pass: {password}")
-    response = config.NET.register(username, password)
+    # Comma and empty string check
+    if "," in username or "," in password:
+        Label(window.window, text='No commas allowed!', fg='red', bg='white', font="MS_Sans_Serif 14").place(x=config.WIDTH // 2, y=570, anchor="center")
+    elif username == "" or password == "":
+        Label(window.window, text='Email and password required!', fg='red', bg='white', font="MS_Sans_Serif 14").place(x=config.WIDTH // 2, y=570, anchor="center")
+    else:
+        # Send request to Server
+        print(f"[REGISTER] User: {username}    Pass: {password}")
+        response = config.NET.register(username, password)
 
-    # Process response
-    if response == protocol.REGISTER_SUCCESS:
-        # Display error to user
-        Label(window.window, text='Successfully Registered! Please Sign in', fg='green', bg='white', font="MS_Sans_Serif 20").place(x=config.WIDTH//2, y=570, anchor="center")
-    elif response == protocol.REGISTER_FAIL:
-        Label(window.window, text='Failed to Register, account already exists?', fg='red', bg='white', font="MS_Sans_Serif 16").place(x=config.WIDTH//2, y=570, anchor="center")
-        pass
+        # Process response
+        if response == protocol.REGISTER_SUCCESS:
+            # Display error to user
+            Label(window.window, text='Successfully Registered! Please Sign in', fg='green', bg='white', font="MS_Sans_Serif 20").place(x=config.WIDTH//2, y=570, anchor="center")
+        elif response == protocol.REGISTER_FAIL:
+            Label(window.window, text='Failed to Register, account already exists?', fg='red', bg='white', font="MS_Sans_Serif 16").place(x=config.WIDTH//2, y=570, anchor="center")
+            pass
 
 def toggle_password_visible():
     if window.password_entry.cget('show') == '•':
@@ -148,5 +154,3 @@ def register():
         width=50,
         height=50
     )
-
-    toggle_password_visible()
