@@ -1,2 +1,2 @@
 # QueensProgammingChallenge
-# Run server.py before running Main.py
+Run server.py before running Main.py
