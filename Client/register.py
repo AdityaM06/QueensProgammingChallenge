@@ -1,36 +1,69 @@
 from tkinter import *
 import config, window, login
 import protocol
+from functions import check_email, check_password
 
-# Function to register a user to a file
+
+# Used for displaying errors
+email_small_text    = None
+password_small_text = None
+bottom_text         = None
+
+
 def register_user():
+    # Reset previous writings
+    email_small_text.config(text="")
+    password_small_text.config(text="")
+    bottom_text.config(text="")
+
     # Get user input
     username = window.username_verify.get()
     password = window.password_verify.get()
 
-    # Comma and empty string check
-    if "," in username or "," in password:
-        Label(window.window, text='No commas allowed!', fg='red', bg='white', font="MS_Sans_Serif 14").place(x=config.WIDTH // 2, y=570, width=500, anchor="center")
-    elif username == "" or password == "":
-        Label(window.window, text='Email and password required!', fg='red', bg='white', font="MS_Sans_Serif 14").place(x=config.WIDTH // 2, y=570, width=500, anchor="center")
-    else:
-        # Send request to Server
-        print(f"[REGISTER] User: {username}    Pass: {password}")
-        response = config.NET.register(username, password)
+    # Verify proper email
+    match (check_email(username)):
+        case protocol.TOO_LONG:
+            email_small_text.config(text="Email is too long!")
+            return
 
-        # Process response
-        if response == protocol.REGISTER_SUCCESS:
-            # Display error to user
-            Label(window.window, text='Successfully Registered! Please Sign in', fg='green', bg='white', font="MS_Sans_Serif 20").place(x=config.WIDTH//2, y=570, anchor="center")
-        elif response == protocol.REGISTER_FAIL:
-            Label(window.window, text='Failed to Register, account already exists?', fg='red', bg='white', font="MS_Sans_Serif 16").place(x=config.WIDTH//2, y=570, anchor="center")
+        case protocol.INVALID_INPUT:
+            email_small_text.config(text="Invalid Email input!")
+            return
+
+        case protocol.VALID_INPUT:
             pass
+
+    # Verify proper password
+    match (check_password(password)):
+        case protocol.TOO_LONG:
+            password_small_text.config(text="Password is too long!")
+            return
+
+        case protocol.INVALID_INPUT:
+            password_small_text.config(text="Invalid Password Input!")
+            return
+
+        case protocol.VALID_INPUT:
+            pass
+
+
+    # Send request to Server
+    print(f"[REGISTER] User: {username}    Pass: {password}")
+    response = config.NET.register(username, password)
+
+    # Process response and display to user
+    if response == protocol.REGISTER_SUCCESS:
+        bottom_text.config(text="Successfully Registered! Please Sign in", fg='green')
+    elif response == protocol.REGISTER_FAIL:
+        bottom_text.config(text="Failed to Register, account already exists?", fg='red')
+
 
 def toggle_password_visible():
     if window.password_entry.cget('show') == '•':
         window.password_entry.config(show='')
     else:
         window.password_entry.config(show='•')
+
 
 # Function for registration screen
 def register():
@@ -111,7 +144,7 @@ def register():
     window.password_entry.place(
         x=60.0,
         y=333.0,
-        width=300.0,
+        width=380.0,
         height=30.0
     )
     global user_entry_image
@@ -133,7 +166,7 @@ def register():
     window.username_entry.place(
         x=60.0,
         y=185.0,
-        width=300.0,
+        width=380.0,
         height=30.0
     )
 
@@ -154,3 +187,11 @@ def register():
         width=50,
         height=50
     )
+
+    global email_small_text, password_small_text, bottom_text
+    email_small_text    = Label(window.window, text='', fg='red', bg='white'); email_small_text.place(x=60, y=235)
+    password_small_text = Label(window.window, text='', fg='red', bg='white'); password_small_text.place(x=60, y=383)
+    bottom_text         = Label(window.window, text='', fg='white', bg='white', font="MS_Sans_Serif 14"); bottom_text.place(x=config.WIDTH//2, y=570, anchor="center")
+
+
+    toggle_password_visible()

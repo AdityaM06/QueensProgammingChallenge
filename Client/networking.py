@@ -23,7 +23,6 @@ class Network:
         self.status = 0
 
 
-
     """ Connects to server, must be done before all other operations """
     def connect_to(self, ip : str, port : int):
         try:
@@ -46,6 +45,7 @@ class Network:
     """ Sends msg to server over socket """
     def send(self, msg : str):
         try:
+            print(f"[NETWORKING] Message bytes: {len(msg.encode(self.FORMAT))}")
             self._sock.send(self.cipher.encrypt(msg.encode(self.FORMAT)))
         except Exception as e:
             print(f"[NETWORK] Send failed! {e}")

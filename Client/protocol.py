@@ -15,3 +15,12 @@ LOGIN_SUCCESS = 5
 
 """ Updating personal info """
 UPDATE_INFO = 6
+
+
+
+""" Email or password is too long """
+TOO_LONG = 7
+""" Email or password is invalid """
+INVALID_INPUT = 8
+""" Proper input for email / password """
+VALID_INPUT = 9

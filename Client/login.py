@@ -1,39 +1,69 @@
 from tkinter import *
 import window, config, register, dashboard_4
-from networking import run_background
 import protocol
+from functions import check_email, check_password
+
+# Used for displaying errors
+email_small_text    = None
+password_small_text = None
+bottom_text         = None
+
 
 def login_verify():
+    # Reset previous writings
+    email_small_text.config(text="")
+    password_small_text.config(text="")
+    bottom_text.config(text="")
+    
     # Get user input
     username = window.username_verify.get()
     password = window.password_verify.get()
-    # Comma and empty string check
-    if "," in username or "," in password:
-        Label(window.window, text='No commas allowed!', fg='red', bg='white',font="MS_Sans_Serif 14").place(x=config.WIDTH // 2, y=570, width=500, anchor="center")
-    elif username == "" or password == "":
-        Label(window.window, text='Email and password required!', fg='red', bg='white', font="MS_Sans_Serif 14").place(x=config.WIDTH // 2, y=570, width=500, anchor="center")
-    else:
-        # Send request to server
-        print(f"[LOGIN] User: {username}    Pass: {password}")
-        response, data = config.NET.login(username, password)
 
-        # Process response
-        if response == protocol.LOGIN_FAIL:
-            # Display error to user
-            Label(window.window, text='Login Failed! Wrong password? User doesn\'t exist?', fg='red', bg='white', font="MS_Sans_Serif 14").place(x=config.WIDTH//2, y=570, anchor="center")
-        elif response == protocol.LOGIN_SUCCESS:
-            # Go to dashboard
-            Label(window.window, text='Successfully Signed in!', fg='green', bg='white', font="MS_Sans_Serif 20").place(x=config.WIDTH//2, y=570, anchor="center")
-            config.DATA = data
-            print(f"[DATA] {config.DATA}")
-            dashboard_4.dashboard()
+    # Verify proper email
+    match (check_email(username)):
+        case protocol.TOO_LONG:
+            email_small_text.config(text="Email is too long!")
+            return
+
+        case protocol.INVALID_INPUT:
+            email_small_text.config(text="Invalid Email input!")
+            return
+
+        case protocol.VALID_INPUT:
+            pass
+
+    # Verify proper password
+    match (check_password(password)):
+        case protocol.TOO_LONG:
+            password_small_text.config(text="Password is too long!")
+            return
+
+        case protocol.INVALID_INPUT:
+            password_small_text.config(text="Invalid Password Input!")
+            return
+
+        case protocol.VALID_INPUT:
+            pass
 
 
-    # """
-    # Label(window.window, text='Success!', fg='green', bg='white', font="MS_Sans_Serif 20").place(x=config.WIDTH//2, y=570, anchor="center")
-    # Label(window.window, text='Incorrect password!', fg='red', bg='white').place(x=60, y=383)
-    # Label(window.window, text='Username not found!', fg='red', bg='white').place(x=60, y=235)
-    # """
+    # Send request to server
+    print(f"[LOGIN] User: {username}    Pass: {password}")
+    response, data = config.NET.login(username, password)
+
+    # Process response
+    if response == protocol.LOGIN_FAIL:
+        # Display error to user
+        bottom_text.config(text="Login Failed! Wrong password? User doesn't exist", fg='red')
+        
+    elif response == protocol.LOGIN_SUCCESS:
+        # Save data from server
+        bottom_text.config(text="Successfully Signed in!", fg='green')
+        config.DATA = data
+        print(f"[DATA] {config.DATA}")
+        # Go to dashboard
+        dashboard_4.dashboard()
+
+
 
 def toggle_password_visible():
     if window.password_entry.cget('show') == '•':
@@ -41,7 +71,7 @@ def toggle_password_visible():
     else:
         window.password_entry.config(show='•')
 
-
+# Function for login screen
 def login():
     window.username_verify = StringVar()
     window.password_verify = StringVar()
@@ -122,7 +152,7 @@ def login():
     window.password_entry.place(
         x=60.0,
         y=333.0,
-        width=300.0,
+        width=380.0,
         height=30.0
     )
 
@@ -145,7 +175,7 @@ def login():
     window.username_entry.place(
         x=60.0,
         y=185.0,
-        width=300.0,
+        width=380.0,
         height=30.0
     )
 
@@ -166,3 +196,11 @@ def login():
         width=50,
         height=50
     )
+
+    global email_small_text, password_small_text, bottom_text
+    email_small_text    = Label(window.window, text='', fg='red', bg='white'); email_small_text.place(x=60, y=235)
+    password_small_text = Label(window.window, text='', fg='red', bg='white'); password_small_text.place(x=60, y=383)
+    bottom_text         = Label(window.window, text='', fg='white', bg='white', font="MS_Sans_Serif 14"); bottom_text.place(x=config.WIDTH//2, y=570, anchor="center")
+
+
+    toggle_password_visible()

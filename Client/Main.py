@@ -1,4 +1,3 @@
-import threading
 import config, window
 import login, register, fail_window
 from tkinter import *
