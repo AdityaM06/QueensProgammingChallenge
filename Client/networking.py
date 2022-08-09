@@ -128,7 +128,7 @@ class MockNetwork:
     def recvPersonalData(self): pass
     def updatePersonalData(self, data): pass
     def register(self, username : str, password : str): pass
-    def login(self, username : str, password : str): pass
+    def login(self, username : str, password : str): return protocol.LOGIN_SUCCESS, [' ', ' ', ' ', ' ']
         
 
 def run_background(func, *_args):

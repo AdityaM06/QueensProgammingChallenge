@@ -31,7 +31,7 @@ db = Database()
 
 #==================================================================================================
 
-""" High level bundle for conn and cipher """
+""" High level bundle for conn, cipher, username """
 class ClientBundle:
     def __init__(self, conn, cipher):
         self.conn = conn
