@@ -1,7 +1,5 @@
 import os, time
-from turtle import update
 import config
-import json
 
 class Database:
 
@@ -12,7 +10,7 @@ class Database:
         
         # Get relevant directories for reading files
         self.DIR = str ( os.path.dirname(os.path.realpath(__file__)) )
-        self.FILE_DIR = self.DIR + "\\" + self.REL_FILEPATH
+        self.FILE_DIR = self.DIR + "/" + self.REL_FILEPATH
 
         # Organizing data   [PASS, INFO, INFO, INFO, INFO]
         self.data_indexes = [ 0,    1,    2,    3,    4  ]
@@ -24,11 +22,24 @@ class Database:
     def read_file(self, filepath):
         # Var to be returned
         final_dict = {}
-        # Read File
-        with open(self.FILE_DIR) as json_file:
-            # Turn json to dictionary
-            final_dict = json.load(json_file)
-        # Return dictionary
+
+        # Read file
+        with open(filepath, "r+") as f:
+            # First lines are comments, skip
+            f.readline(); f.readline()
+
+            # Loop through each line
+            while True:
+                # Read line, quit if its empty
+                line = f.readline().replace("\n", "")
+                if not line: break
+                
+                # Format data and add to dict
+                line = line.split(',')
+                key = line[0]; del line[0]
+                final_dict[key] = line
+
+        # print(final_dict)
         return final_dict
 
 
@@ -39,10 +50,16 @@ class Database:
     """ Writes new entry to database given a key and its data """
     def addKey(self, key : str, data):
         if config.VERBOSE_OUTPUT: print(f"[DATABASE] Adding new data: ({key}, {data})")
+
         # Write data locally
         self._data[key] = data
+
         # Write data to file
-        self.updateOnFile()
+        with open(self.FILE_DIR, 'a+') as f:
+            f.write(key)
+
+            for d in data: f.write(f",{d}")
+            f.write("\n")
 
     """ Change data of a key """
     def updateKey(self, key : str, data):
@@ -51,15 +68,33 @@ class Database:
         # Update locally
         self._data[key] = [self._data[key][0]] + data
         # Update on file
-        self.updateOnFile()
+        new_data = ""
+        with open(self.FILE_DIR, 'r+') as f:
+            for line in f:
+                # Read line
+                line = line.strip()
+                if line and not line.startswith('+-+'):
+                    # Find key for this line
+                    user = line.split(',')[0]
+                    # Found line we need to change
+                    if key == user:
+                        line = [line.split(',')[1]] + data
+                        # Add key
+                        new_data += key
+                        # Add data
+                        for d in line: new_data += f",{d}"
+                        new_data += "\n"
+
+
+                    else:
+                        new_data += line + "\n"
+                else:
+                    new_data += line + "\n"
         
-
-    """ Writes disctionary contents to file"""
-    def updateOnFile(self):
-        # Update on file
-        with open(self.FILE_DIR, "w") as json_file:
-            json_file.write( json.dumps ( self._data, indent=4 ) )
-
+            # Write new contens
+            f.seek(0)
+            f.truncate()
+            f.write(new_data)
 
     """ Returns all data on the key on database """
     def keyDump(self, key : str):
@@ -92,4 +127,6 @@ class Database:
 """ Dump database contents, used for debugging """
 def dump():
     db = Database()
-    return db._data
+    print(db._data)
+
+# dump()
