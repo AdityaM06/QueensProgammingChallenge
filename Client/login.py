@@ -62,7 +62,7 @@ def login_verify():
         config.DATA = data
         print(f"[DATA] {config.DATA}")
         # Go to dashboard
-        dashboard_4.dashboard()
+        information_dashboard.dashboard()
 
 
 # Function which allows user to toggle password visibility in the entry field
