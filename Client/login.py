@@ -1,5 +1,5 @@
 from tkinter import *
-import window, config, register, dashboard_4
+import window, config, register, information_dashboard
 import protocol
 from functions import check_email, check_password
 
