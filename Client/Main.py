@@ -3,9 +3,11 @@ import login, register, fail_window
 from tkinter import *
 from networking import Network, MockNetwork, run_background
 
+# Creating the window
 window.window = Tk()
+window.window.title('Sign In')
 
-# Configure dimensions
+# Configure window dimensions
 WIDTH, HEIGHT = config.WIDTH, config.HEIGHT
 window.window.geometry(f"{WIDTH}x{HEIGHT}")
 window.window.configure(bg = "white")

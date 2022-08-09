@@ -1,3 +1,4 @@
+# Variables to be shared across python scripts
 window = None
 canvas = None
 

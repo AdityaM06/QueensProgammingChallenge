@@ -1,6 +1,8 @@
 import config, window
 from tkinter import *
 
+
+# Function which displays if app fails to connect to the server
 def fail_window():
     window.canvas = Canvas(
         window.window,

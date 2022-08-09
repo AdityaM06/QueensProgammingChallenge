@@ -4,11 +4,12 @@ import protocol
 from functions import check_email, check_password
 
 # Used for displaying errors
-email_small_text    = None
+email_small_text = None
 password_small_text = None
-bottom_text         = None
+bottom_text = None
 
 
+# Function which verifies the login information
 def login_verify():
     # Reset previous writings
     email_small_text.config(text="")
@@ -64,19 +65,21 @@ def login_verify():
         dashboard_4.dashboard()
 
 
-
+# Function which allows user to toggle password visibility in the entry field
 def toggle_password_visible():
     if window.password_entry.cget('show') == '•':
         window.password_entry.config(show='')
     else:
         window.password_entry.config(show='•')
 
+
 # Function for login screen
 def login():
+    # Defining variables
     window.username_verify = StringVar()
     window.password_verify = StringVar()
     
-
+    # Resetting the window
     window.canvas.destroy()
     window.canvas = Canvas(
         window.window,
@@ -87,9 +90,10 @@ def login():
         highlightthickness=0,
         relief="ridge"
     )
-
     window.canvas.place(x=0, y=0)
 
+    # Adding elements to the window
+    # Adding sign in text to top left of login window
     window.canvas.create_text(
         50.0,
         50.0,
@@ -99,6 +103,7 @@ def login():
         font=("Inter Medium", 50 * -1)
     )
 
+    # Adding the sign-in button
     global sign_in_button_img
     sign_in_button_img = PhotoImage(
         file='assets/sign_in_button.png')
@@ -116,6 +121,7 @@ def login():
         height=50.0
     )
 
+    # Adding the or-register button
     global or_register_button_img
     or_register_button_img = PhotoImage(
         file='assets/or_register_button.png')
@@ -133,6 +139,7 @@ def login():
         height=24.0
     )
 
+    # Adding the password entry field
     global pass_entry_image
     pass_entry_image = PhotoImage(
         file='assets/pass_entry.png')
@@ -156,6 +163,7 @@ def login():
         height=30.0
     )
 
+    # Adding the email entry field
     global user_entry_image
     user_entry_image = PhotoImage(
         file='assets/user_entry.png')
@@ -179,6 +187,7 @@ def login():
         height=30.0
     )
 
+    # Adding the password visibility toggle button
     global eye_button_image
     eye_button_image = PhotoImage(
         file='assets/eye.png')
@@ -197,10 +206,11 @@ def login():
         height=50
     )
 
+    # Configuring error messages
     global email_small_text, password_small_text, bottom_text
     email_small_text    = Label(window.window, text='', fg='red', bg='white'); email_small_text.place(x=60, y=235)
     password_small_text = Label(window.window, text='', fg='red', bg='white'); password_small_text.place(x=60, y=383)
     bottom_text         = Label(window.window, text='', fg='white', bg='white', font="MS_Sans_Serif 14"); bottom_text.place(x=config.WIDTH//2, y=570, anchor="center")
 
-
+    # Setting the password to hidden by default
     toggle_password_visible()

@@ -9,7 +9,7 @@ email_small_text    = None
 password_small_text = None
 bottom_text         = None
 
-
+# Functions which registers the user
 def register_user():
     # Reset previous writings
     email_small_text.config(text="")
@@ -58,6 +58,7 @@ def register_user():
         bottom_text.config(text="Failed to Register, account already exists?", fg='red')
 
 
+# Function which toggles the visibility of the password in the entry field
 def toggle_password_visible():
     if window.password_entry.cget('show') == '•':
         window.password_entry.config(show='')
@@ -67,10 +68,13 @@ def toggle_password_visible():
 
 # Function for registration screen
 def register():
+    # Configuring variables
     window.username_verify = StringVar()
     window.password_verify = StringVar()
 
+    # Resetting the window
     window.canvas.destroy()
+    window.window.title('Register')
     window.canvas = Canvas(
         window.window,
         bg="#FFFFFF",
@@ -80,9 +84,9 @@ def register():
         highlightthickness=0,
         relief="ridge"
     )
-
     window.canvas.place(x=0, y=0)
 
+    # Adding register text to top left
     window.canvas.create_text(
         50.0,
         50.0,
@@ -91,6 +95,8 @@ def register():
         fill="#FF8787",
         font=("Inter Medium", 50 * -1)
     )
+
+    # Adding register button
     global register_button_img
     register_button_img = PhotoImage(
         file='assets/register_button.png')
@@ -108,6 +114,7 @@ def register():
         height=50.0
     )
 
+    # Adding or sign-in button
     global or_sign_in_button_img
     or_sign_in_button_img = PhotoImage(
         file='assets/or_sign_in_button.png')
@@ -125,6 +132,7 @@ def register():
         height=24.0
     )
 
+    # Adding the password entry field
     global pass_entry_image
     pass_entry_image = PhotoImage(
         file='assets/pass_entry.png')
@@ -147,6 +155,8 @@ def register():
         width=380.0,
         height=30.0
     )
+
+    # Adding the email entry field
     global user_entry_image
     user_entry_image = PhotoImage(
         file='assets/user_entry.png')
@@ -170,6 +180,7 @@ def register():
         height=30.0
     )
 
+    # Adding the toggle password visibility button
     global eye_button_image
     eye_button_image = PhotoImage(
         file='assets/eye.png')
@@ -188,10 +199,11 @@ def register():
         height=50
     )
 
+    # Configuring error messages text
     global email_small_text, password_small_text, bottom_text
     email_small_text    = Label(window.window, text='', fg='red', bg='white'); email_small_text.place(x=60, y=235)
     password_small_text = Label(window.window, text='', fg='red', bg='white'); password_small_text.place(x=60, y=383)
     bottom_text         = Label(window.window, text='', fg='white', bg='white', font="MS_Sans_Serif 14"); bottom_text.place(x=config.WIDTH//2, y=570, anchor="center")
 
-
+    # Setting the password visibility to hidden by default
     toggle_password_visible()

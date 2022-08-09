@@ -2,15 +2,18 @@ from tkinter import *
 import window
 
 
+# Function which displays the dashboard window
 def dashboard():
+    # Closing the old window
     window.window.destroy()
 
+    # Creating a new window
     window.window = Tk()
-
     window.window.geometry("1280x720")
     window.window.configure(bg = "#FFFFFF")
+    window.window.title('Dashboard')
 
-
+    # Creating a canvas within the window to place items onto
     canvas = Canvas(
         window.window,
         bg = "#FFFFFF",
@@ -20,8 +23,9 @@ def dashboard():
         highlightthickness = 0,
         relief = "ridge"
     )
-
     canvas.place(x = 0, y = 0)
+
+    # Adding "myHealth Dashboard" text to top left
     canvas.create_text(
         106.0,
         52.99999999999999,
@@ -31,6 +35,7 @@ def dashboard():
         font=("Inter Medium", 52 * -1)
     )
 
+    # Creating health card slot
     canvas.create_rectangle(
         106.0,
         304.84478759765625,
@@ -48,6 +53,7 @@ def dashboard():
         font=("Inter Regular", 32 * -1)
     )
 
+    # Creating additional text box
     canvas.create_rectangle(
         770.0,
         305.0,
@@ -65,6 +71,7 @@ def dashboard():
         font=("Inter Regular", 32 * -1)
     )
 
+    # Creating information tab button on top
     global information_button_image
     information_button_image = PhotoImage(
         file='assets/information_button.png')
@@ -82,6 +89,7 @@ def dashboard():
         height=59.18022918701172
     )
 
+    # Creating vaccine tab button on top
     global vaccine_button_image
     vaccine_button_image = PhotoImage(
         file='assets/vaccine_button.png')
@@ -99,6 +107,7 @@ def dashboard():
         height=59.18022918701172
     )
 
+    # Creating appointments tab button on top
     global appointments_button_image
     appointments_button_image = PhotoImage(
         file='assets/appointments_button.png')
@@ -116,6 +125,7 @@ def dashboard():
         height=59.18022918701172
     )
 
+    # Creating records tab button on top
     global records_button_image
     records_button_image = PhotoImage(
         file='assets/records_button.png')
@@ -133,6 +143,7 @@ def dashboard():
         height=59.18022918701172
     )
 
+    # Creating upload button to upload healthcard
     global upload_button_image
     upload_button_image = PhotoImage(
         file='assets/upload_button.png')
@@ -149,7 +160,6 @@ def dashboard():
         width=57.8651123046875,
         height=57.8651123046875
     )
-
     canvas.create_text(
         34.8651123046875,
         674.3070068359375,
@@ -158,5 +168,7 @@ def dashboard():
         fill="#FF8888",
         font=("Inter Regular", 13 * -1)
     )
-    window.window.resizable(True, True)
+
+    # Setting the window to not be resizeable and starting the main loop
+    window.window.resizable(False, False)
     window.window.mainloop()
