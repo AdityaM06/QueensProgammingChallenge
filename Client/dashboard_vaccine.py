@@ -110,9 +110,9 @@ def vaccine_tab():
 
     # Adding legend
     window.canvas.create_text(
-        106.0,
-        680,
-        anchor="nw",
+        1280//2,
+        695,
+        anchor="center",
         text="A dot symbolizes upcoming, a checkmark symbolizes completed",
         fill="#FF8888",
         font=("Inter", 15)
