@@ -1,4 +1,4 @@
-import config, window
+import window
 import login, register, fail_window
 from tkinter import *
 from networking import Network, MockNetwork, run_background
@@ -8,7 +8,7 @@ window.window = Tk()
 window.window.title('Sign In')
 
 # Configure window dimensions
-WIDTH, HEIGHT = config.WIDTH, config.HEIGHT
+WIDTH, HEIGHT = window.WIDTH, window.HEIGHT
 window.window.geometry(f"{WIDTH}x{HEIGHT}")
 window.window.configure(bg = "white")
 
@@ -16,27 +16,27 @@ window.window.configure(bg = "white")
 window.canvas = Canvas(
     window.window,
     bg="#FFFFFF",
-    height=config.HEIGHT,
-    width=config.WIDTH,
+    height=window.HEIGHT,
+    width=window.WIDTH,
     bd=0,
     highlightthickness=0,
     relief="ridge"
 )
 
 # Thread for networking
-config.NET = Network() #MockNetwork( True | False )
-run_background ( config.NET.connect_to, *('localhost', 9848) )
+window.NET = Network() #MockNetwork( True | False )
+run_background ( window.NET.connect_to, *('localhost', 9848) )
 
 # Wait for a response
-while (config.NET.status == 0): pass
+while (window.NET.status == 0): pass
 
 # Process response
-if (config.NET.status == 1):
+if (window.NET.status == 1):
 
     # Failed, show fail screen
     fail_window.fail_window()
 
-elif (config.NET.status == 2):
+elif (window.NET.status == 2):
 
     # Starting Screen
     login.login()

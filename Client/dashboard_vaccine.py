@@ -1,30 +1,26 @@
 from tkinter import *
 import window
-import vaccine_tab
+import dashboard_information
 
 
-# Function which displays the dashboard window
-def dashboard():
-    # Closing the old window
-    window.window.destroy()
+# Function which displays the vaccine tab
+def vaccine_tab():
+    window.window.title('Vaccines')
 
-    # Creating a new window
-    window.window = Tk()
-    window.window.geometry("1280x720")
-    window.window.configure(bg = "#FFFFFF")
-    window.window.title('Information')
+    # Resetting the canvas
+    window.canvas.destroy()
 
     # Creating a canvas within the window to place items onto
     window.canvas = Canvas(
         window.window,
-        bg = "#FFFFFF",
-        height = 720,
-        width = 1280,
-        bd = 0,
-        highlightthickness = 0,
-        relief = "ridge"
+        bg="#FFFFFF",
+        height=720,
+        width=1280,
+        bd=0,
+        highlightthickness=0,
+        relief="ridge"
     )
-    window.canvas.place(x = 0, y = 0)
+    window.canvas.place(x=0, y=0)
 
     # Adding "myHealth Dashboard" text to top left
     window.canvas.create_text(
@@ -36,42 +32,6 @@ def dashboard():
         font=("Inter Medium", 52 * -1)
     )
 
-    # Creating health card slot
-    window.canvas.create_rectangle(
-        106.0,
-        304.84478759765625,
-        664.9244384765625,
-        666.5017700195312,
-        fill="#FFFFFF",
-        outline="#FF8888")
-
-    window.canvas.create_text(
-        292.74652099609375,
-        242.37673950195312,
-        anchor="nw",
-        text="Health Card",
-        fill="#FF8888",
-        font=("Inter Regular", 32 * -1)
-    )
-
-    # Creating additional text box
-    window.canvas.create_rectangle(
-        770.0,
-        305.0,
-        1173.0,
-        667.0,
-        fill="#FFFFFF",
-        outline="#FF8888")
-
-    window.canvas.create_text(
-        850.0,
-        242.0,
-        anchor="nw",
-        text="Emergency Info",
-        fill="#FF8888",
-        font=("Inter Regular", 32 * -1)
-    )
-
     # Creating information tab button on top
     global information_button_image
     information_button_image = PhotoImage(
@@ -80,7 +40,7 @@ def dashboard():
         image=information_button_image,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: print("button_1 clicked"),
+        command=dashboard_information.dashboard,
         relief="flat"
     )
     information_button.place(
@@ -98,7 +58,7 @@ def dashboard():
         image=vaccine_button_image,
         borderwidth=0,
         highlightthickness=0,
-        command=vaccine_tab.vaccine_tab,
+        command=lambda: print('button 3 clicked'),
         relief="flat"
     )
     vaccine_button.place(
@@ -144,32 +104,19 @@ def dashboard():
         height=59.18022918701172
     )
 
-    # Creating upload button to upload healthcard
-    global upload_button_image
-    upload_button_image = PhotoImage(
-        file='assets/upload_button.png')
-    upload_button = Button(
-        image=upload_button_image,
-        borderwidth=0,
-        highlightthickness=0,
-        command=lambda: print("button_5 clicked"),
-        relief="flat"
-    )
-    upload_button.place(
-        x=29.0,
-        y=616.0,
-        width=57.8651123046875,
-        height=57.8651123046875
-    )
+    # Creating the table
+    global vaccine_table_image
+    vaccine_table_image = PhotoImage(
+        file='assets/vaccine_table.png')
+    window.canvas.create_image(106,200,anchor="nw",image=vaccine_table_image)
+
+    # Adding legend
     window.canvas.create_text(
-        34.8651123046875,
-        674.3070068359375,
+        106.0,
+        680,
         anchor="nw",
-        text="Upload",
+        text="A dot symbolizes upcoming, a checkmark symbolizes completed",
         fill="#FF8888",
-        font=("Inter Regular", 13 * -1)
+        font=("Inter", 15)
     )
 
-    # Setting the window to not be resizeable and starting the main loop
-    window.window.resizable(False, False)
-    window.window.mainloop()

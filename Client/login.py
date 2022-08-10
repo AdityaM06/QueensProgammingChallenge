@@ -1,5 +1,5 @@
 from tkinter import *
-import window, config, register, information_dashboard
+import window, register, dashboard_information
 import protocol
 from functions import check_email, check_password
 
@@ -49,7 +49,7 @@ def login_verify():
 
     # Send request to server
     print(f"[LOGIN] User: {username}    Pass: {password}")
-    response, data = config.NET.login(username, password)
+    response, data = window.NET.login(username, password)
 
     # Process response
     if response == protocol.LOGIN_FAIL:
@@ -59,10 +59,17 @@ def login_verify():
     elif response == protocol.LOGIN_SUCCESS:
         # Save data from server
         bottom_text.config(text="Successfully Signed in!", fg='green')
-        config.DATA = data
-        print(f"[DATA] {config.DATA}")
+        window.DATA = data
+        print(f"[DATA] {window.DATA}")
+
+        # Creating a new window
+        window.window.destroy()
+        window.window = Tk()
+        window.window.geometry("1280x720")
+        window.window.configure(bg = "#FFFFFF")
+        
         # Go to dashboard
-        information_dashboard.dashboard()
+        dashboard_information.dashboard()
 
 
 # Function which allows user to toggle password visibility in the entry field
@@ -84,8 +91,8 @@ def login():
     window.canvas = Canvas(
         window.window,
         bg="#FFFFFF",
-        height=config.HEIGHT,
-        width=config.WIDTH,
+        height=window.HEIGHT,
+        width=window.WIDTH,
         bd=0,
         highlightthickness=0,
         relief="ridge"
@@ -210,7 +217,7 @@ def login():
     global email_small_text, password_small_text, bottom_text
     email_small_text    = Label(window.window, text='', fg='red', bg='white'); email_small_text.place(x=60, y=235)
     password_small_text = Label(window.window, text='', fg='red', bg='white'); password_small_text.place(x=60, y=383)
-    bottom_text         = Label(window.window, text='', fg='white', bg='white', font="MS_Sans_Serif 14"); bottom_text.place(x=config.WIDTH//2, y=570, anchor="center")
+    bottom_text         = Label(window.window, text='', fg='white', bg='white', font="MS_Sans_Serif 14"); bottom_text.place(x=window.WIDTH//2, y=570, anchor="center")
 
     # Setting the password to hidden by default
     toggle_password_visible()

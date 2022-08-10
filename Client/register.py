@@ -1,5 +1,5 @@
 from tkinter import *
-import config, window, login
+import window, login
 import protocol
 from functions import check_email, check_password
 
@@ -49,7 +49,7 @@ def register_user():
 
     # Send request to Server
     print(f"[REGISTER] User: {username}    Pass: {password}")
-    response = config.NET.register(username, password)
+    response = window.NET.register(username, password)
 
     # Process response and display to user
     if response == protocol.REGISTER_SUCCESS:
@@ -78,8 +78,8 @@ def register():
     window.canvas = Canvas(
         window.window,
         bg="#FFFFFF",
-        height=config.HEIGHT,
-        width=config.WIDTH,
+        height=window.HEIGHT,
+        width=window.WIDTH,
         bd=0,
         highlightthickness=0,
         relief="ridge"
@@ -203,7 +203,7 @@ def register():
     global email_small_text, password_small_text, bottom_text
     email_small_text    = Label(window.window, text='', fg='red', bg='white'); email_small_text.place(x=60, y=235)
     password_small_text = Label(window.window, text='', fg='red', bg='white'); password_small_text.place(x=60, y=383)
-    bottom_text         = Label(window.window, text='', fg='white', bg='white', font="MS_Sans_Serif 14"); bottom_text.place(x=config.WIDTH//2, y=570, anchor="center")
+    bottom_text         = Label(window.window, text='', fg='white', bg='white', font="MS_Sans_Serif 14"); bottom_text.place(x=window.WIDTH//2, y=570, anchor="center")
 
     # Setting the password visibility to hidden by default
     toggle_password_visible()

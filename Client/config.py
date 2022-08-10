@@ -1,4 +1,0 @@
-WIDTH, HEIGHT = 500, 600
-
-NET = None
-DATA = None

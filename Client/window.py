@@ -7,3 +7,8 @@ password_verify = None
 
 username_entry = None
 password_entry = None
+
+WIDTH, HEIGHT = 500, 600
+
+NET = None
+DATA = None
