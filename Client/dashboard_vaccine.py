@@ -5,10 +5,8 @@ import dashboard_information
 
 # Function which displays the vaccine tab
 def vaccine_tab():
+    # Setting window title
     window.window.title('Vaccines')
-
-    # Resetting the canvas
-    window.canvas.destroy()
 
     # Creating a canvas within the window to place items onto
     window.canvas = Canvas(
