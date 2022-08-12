@@ -46,7 +46,7 @@ def draw_tabs():
         relief="flat"
     )
     healthcard_button.place(
-        x=906.2482299804688,
+        x=107.31511688232422,
         y=125.3313980102539,
         width=266.31109619140625,
         height=59.18022918701172
@@ -100,7 +100,7 @@ def draw_tabs():
         relief="flat"
     )
     information_button.place(
-        x=107.31511688232422,
+        x=906.2482299804688,
         y=125.3313980102539,
         width=266.31103515625,
         height=59.18022918701172
