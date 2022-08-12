@@ -2,6 +2,7 @@ import os, time
 from turtle import update
 import config
 import json
+import protocol
 
 class Database:
 
@@ -14,8 +15,8 @@ class Database:
         self.DIR = str ( os.path.dirname(os.path.realpath(__file__)) )
         self.FILE_DIR = self.DIR + "/" + self.REL_FILEPATH
 
-        # Organizing data   [PASS, INFO, INFO, INFO, INFO]
-        self.data_indexes = [ 0,    1,    2,    3,    4  ]
+        # Organizing data indexes
+        self.data_indexes = protocol.DATA_INDEXES
 
         # Read file into RAM as dictionary
         self._data = self.read_file(self.FILE_DIR)
@@ -45,11 +46,15 @@ class Database:
         self.updateOnFile()
 
     """ Change data of a key """
-    def updateKey(self, key : str, data):
+    def updateKey(self, key : str, data, data_type : int):
+        # Verify correct input
+        if not data_type in self.data_indexes: raise ValueError(f"Invalid argument for type of data: {data_type}")
         # Key doesn't exist, nothing to update
         if not self.keyExists(key): return
         # Update locally
-        self._data[key] = [self._data[key][0]] + data
+        index = self.data_indexes[data_type]
+        # Add one to jump over hash index
+        self._data[key][index+1] = data
         # Update on file
         self.updateOnFile()
         
@@ -71,21 +76,8 @@ class Database:
     """ Returns the PassHash of the User """
     def getPassHash(self, key : str):
         if ( not key in self._data): raise ValueError("Key Does not Exist in Database")
-        return self._data[key][ self.data_indexes[0] ]
+        return self._data[key][ 0 ]
 
-    """ TODO REMAIN TO BE DEFINED """
-    def info1(self, key : str):
-        if ( not key in self._data): raise ValueError("Key Does not Exist in Database")
-        return self._data[key][ self.data_indexes[1] ]
-    def info2(self, key : str):
-        if ( not key in self._data): raise ValueError("Key Does not Exist in Database")
-        return self._data[key][ self.data_indexes[2] ]
-    def info3(self, key : str):
-        if ( not key in self._data): raise ValueError("Key Does not Exist in Database")
-        return self._data[key][ self.data_indexes[3] ]
-    def info4(self, key : str):
-        if ( not key in self._data): raise ValueError("Key Does not Exist in Database")
-        return self._data[key][ self.data_indexes[4] ]
     
     
                 

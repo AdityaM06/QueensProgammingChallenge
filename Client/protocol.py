@@ -1,3 +1,4 @@
+
 """ Request to register account """
 REGISTER_REQ = 0
 """ Failed to register """
@@ -24,3 +25,12 @@ TOO_LONG = 7
 INVALID_INPUT = 8
 """ Proper input for email / password """
 VALID_INPUT = 9
+
+""" Used for sending parts of user data at a time """
+APPOINMENTS = 10
+VACCINES = 11
+HEALTHCARD = 12
+INFORMATION = 13
+
+""" For indexing the right data """
+DATA_INDEXES = {INFORMATION : 0, APPOINMENTS : 1, VACCINES : 2, HEALTHCARD : 3}

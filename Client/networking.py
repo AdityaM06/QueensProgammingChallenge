@@ -70,11 +70,14 @@ class Network:
         return pickle.loads( buff )
     
     """ Sends updated data to be stored on server """
-    def updatePersonalData(self, data):
+    def updatePersonalData(self, data, data_type):
+        if not data_type in [protocol.APPOINMENTS, protocol.HEALTHCARD, protocol.INFORMATION, protocol.VACCINES]: raise ValueError("Invalid argument for type of data")
+        # Get right data
+        data = data[protocol.DATA_INDEXES[data_type]]
         # Turn data into bytes
         out = pickle.dumps ( data )
         # Let server know we are trying to update, along the number of blocks to receive it
-        self.send(f"{protocol.UPDATE_INFO}:" + str ( ceil ( len(out) / self.cipher._max_msg ) ) )
+        self.send(f"{protocol.UPDATE_INFO}:{data_type};" + str ( ceil ( len(out) / self.cipher._max_msg ) ) )
 
         while out:
             # Cut portion to be encrypted
@@ -110,14 +113,14 @@ class Network:
         match (response):
             case protocol.LOGIN_FAIL:
                 print("[LOGIN] Failed!")
-                response, None
+                response
 
             case protocol.LOGIN_SUCCESS:
                 print("[LOGIN] Successfull!")
-                return response, self.recvPersonalData()
+                return response
     
 
-        return response, None        
+        return response      
 
 class MockNetwork:
     def __init__(self, b : bool): self.status = 2 if b else 1
@@ -146,21 +149,17 @@ def run_background(func, *_args):
 #----------------------------------+
 
 """
-net = Network()
-net.connect_to("localhost", 9848)
+import networking
+import protocol
+import time
 
-time.sleep(2)
+net = networking.Network()
 
-# response = net.register("Test1", "NewPass")                    # Register (user already exists?)
-response, data = net.login("Test1", "NewPass")                       # Correct Password login
-# response, data = net.login("Test1", "NewPass1")                      # Wrong password login
+net.connect_to('localhost', 9848)
+code, info = net.login("test3@gmail.com", "abc")
 
-print(data)
 time.sleep(1)
 
-if response == protocol.LOGIN_SUCCESS:
-    data[0] = "Vaccinated"
-    net.updatePersonalData(data)
-
-    time.sleep(1)
+print(f"[DATA] {info}")
+net.updatePersonalData([data.decode(), data.decode()], protocol.HEALTHCARD)
 """

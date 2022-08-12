@@ -158,7 +158,7 @@ while inputs:
                                 print(f"[REGISTER] Client failed to register, user \"{username}\" already exists")
                             else:
                                 # Add to database using default values
-                                db.addKey(username, [password] + [' ', ' ', ' ', ' '])
+                                db.addKey(username, [password] + db.keyDump("MockUser"))
                                 send_msg(s, str(protocol.REGISTER_SUCCESS))
                                 print(f"[REGISTER] New Client registered: {username}")
 
@@ -189,19 +189,19 @@ while inputs:
 
                         case protocol.UPDATE_INFO:
                             # Receive what client has to send
-                            new_data = recv_byte_dump(s, int(data))
+                            data_type = int ( data.split(';')[0] )
+                            new_data = recv_byte_dump(s, int(data.split(';')[1]))
 
                             # Only update info if client is logged in
                             if s.logged_in():
                                 if config.VERBOSE_OUTPUT: print(f"[SERVER] Got new user data: {new_data}")
                                 print(f"[SERVER] Updating user data for \"{s.username}\"")
-                                db.updateKey(s.username, new_data)
+                                db.updateKey(s.username, new_data, data_type)
 
                             else:
                                 print("[SERVER] Client may not update data before logging in")
 
                                     
-
 
 
                 

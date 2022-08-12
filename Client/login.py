@@ -1,7 +1,10 @@
 from tkinter import *
+from turtle import goto
 import window, register, dashboard_information
 import protocol
 from functions import check_email, check_password
+from networking import run_background
+
 
 # Used for displaying errors
 email_small_text = None
@@ -45,11 +48,10 @@ def login_verify():
 
         case protocol.VALID_INPUT:
             pass
-
-
+        
     # Send request to server
     print(f"[LOGIN] User: {username}    Pass: {password}")
-    response, data = window.NET.login(username, password)
+    response = window.NET.login(username, password)
 
     # Process response
     if response == protocol.LOGIN_FAIL:
@@ -59,17 +61,28 @@ def login_verify():
     elif response == protocol.LOGIN_SUCCESS:
         # Save data from server
         bottom_text.config(text="Successfully Signed in!", fg='green')
-        window.DATA = data
-        print(f"[DATA] {window.DATA}")
+        run_background(recvUserData)
 
-        # Creating a new window
-        window.window.destroy()
-        window.window = Tk()
-        window.window.geometry("1280x720")
-        window.window.configure(bg = "#FFFFFF")
-        
-        # Go to dashboard
-        dashboard_information.dashboard()
+
+
+# Receive user data after login and change to dashboard screen
+def recvUserData():
+    window.DATA = window.NET.recvPersonalData()
+    window.window.after(100, goToDashboard)
+
+
+# Ran in loop to check if we can move to dashboard
+def goToDashboard():
+    # Creating a new window
+    window.window.destroy()
+    window.window = Tk()
+    window.window.geometry("1280x720")
+    window.window.configure(bg = "#FFFFFF")
+    window.window.resizable(False, False)
+    
+    # Go to dashboard
+    dashboard_information.dashboard()
+
 
 
 # Function which allows user to toggle password visibility in the entry field
