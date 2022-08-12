@@ -47,7 +47,7 @@ def uploadNewImage(image_num=-1):
 # Function which displays the dashboard window
 def dashboard():
     # Setting window title
-    window.window.title('Information')
+    window.window.title('Healthcard')
 
     # Creating a canvas within the window to place items onto
     window.canvas = Canvas(
@@ -102,17 +102,17 @@ def dashboard():
 
 
     # Creating information tab button on top
-    global information_button_image
-    information_button_image = PhotoImage(
-        file='assets/information_button.png')
-    information_button = Button(
-        image=information_button_image,
+    global healthcar_button_image
+    healthcar_button_image = PhotoImage(
+        file='assets/healthcard_button.png')
+    healthcard_button = Button(
+        image=healthcar_button_image,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: print("button_1 clicked"),
+        command=None,
         relief="flat"
     )
-    information_button.place(
+    healthcard_button.place(
         x=906.2482299804688,
         y=125.3313980102539,
         width=266.31109619140625,
@@ -156,17 +156,17 @@ def dashboard():
     )
 
     # Creating records tab button on top
-    global records_button_image
-    records_button_image = PhotoImage(
-        file='assets/records_button.png')
-    records_button = Button(
-        image=records_button_image,
+    global information_button_image
+    information_button_image = PhotoImage(
+        file='assets/information_button.png')
+    information_button = Button(
+        image=information_button_image,
         borderwidth=0,
         highlightthickness=0,
         command=lambda: print("button_4 clicked"),
         relief="flat"
     )
-    records_button.place(
+    information_button.place(
         x=107.31511688232422,
         y=125.3313980102539,
         width=266.31103515625,

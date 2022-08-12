@@ -1,6 +1,5 @@
 from tkinter import *
-from turtle import goto
-import window, register, dashboard_information
+import window, register, dashboard_healthcard
 import protocol
 from functions import check_email, check_password
 from networking import run_background
@@ -81,7 +80,7 @@ def goToDashboard():
     window.window.resizable(False, False)
     
     # Go to dashboard
-    dashboard_information.dashboard()
+    dashboard_healthcard.dashboard()
 
 
 
