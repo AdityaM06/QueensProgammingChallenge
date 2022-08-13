@@ -1,9 +1,10 @@
 import re, protocol, base64
-from tkinter import *
 from io import BytesIO
-from PIL import Image
-import dashboard_vaccine, dashboard_healthcard
-
+import PIL.Image
+from tkinter import *
+import dashboard_healthcard, dashboard_vaccine
+import window
+import time
 
 """ https://www.c-sharpcorner.com/article/how-to-validate-an-email-address-in-python/ """
 def check_email(email):
@@ -21,7 +22,7 @@ def check_password(password):
 def base64_to_Image(data : str):
     im_bytes = base64.b64decode(data.encode())   # im_bytes is a binary image
     im_file = BytesIO(im_bytes)                  # convert image to file-like object
-    return Image.open(im_file)                   # img is now PIL Image object
+    return PIL.Image.open(im_file)                   # img is now PIL Image object
 
 
 """ Return base64 string from PIL image"""
@@ -33,16 +34,80 @@ def Image_to_base64(img):
     im_b64 = base64.b64encode(im_bytes)
     return im_b64.decode()
 
+
+""" Takes vaccine data, de-compresses into list"""
+def decompress_vaccine_data(data : str):
+    # Output var
+    out = []
+
+    # Outer vars
+    data = data
+    num = None
+    ltr = None
+    i = 1
+
+    while data != "":
+        # Do while
+        while True:
+            num = data[:i]
+            if not num.isnumeric():
+                ltr = data[i-1]
+                data = data[i:]
+                i = 1
+                break
+            i += 1
+
+        num = int(num[:-1])
+        for _ in range(num):
+            out.append ( ltr )
+
+    return out
+
+
+""" Takes de-compressed list, compresses into string """
+def compress_vaccine_data(data):
+    # Output string
+    out = ""
+
+    # Outer vars
+    key = data[0]
+    length = 0
+
+    # Loop
+    for i in range(len(data)):
+        if key != data[i]:
+            out += f"{length}{key}"
+            length = 1
+            key = data[i]
+        else:
+            length += 1
+    out += f"{length}{key}"
+
+    # Return output string
+    return out
+
+
+""" Draws tabs for all the tabs """
 def draw_tabs():
+    # Adding "myHealth Dashboard" text to top left
+    window.canvas.create_text(
+        106.0,
+        52.99999999999999,
+        anchor="nw",
+        text="myHealth Dashboard",
+        fill="#FF8888",
+        font=("Inter Medium", 52 * -1)
+    )
+
     # Creating information tab button on top
-    global healthcar_button_image
-    healthcar_button_image = PhotoImage(
+    global healthcard_button_image
+    healthcard_button_image = PhotoImage(
         file='assets/healthcard_button.png')
     healthcard_button = Button(
-        image=healthcar_button_image,
+        image=healthcard_button_image,
         borderwidth=0,
         highlightthickness=0,
-        command=None,
+        command=dashboard_healthcard.dashboard,
         relief="flat"
     )
     healthcard_button.place(
@@ -105,3 +170,8 @@ def draw_tabs():
         width=266.31103515625,
         height=59.18022918701172
     )
+
+
+""" TEST """
+if __name__ == "__main__":
+    print( compress_vaccine_data ( decompress_vaccine_data ( "4F6A19B" ) ) )

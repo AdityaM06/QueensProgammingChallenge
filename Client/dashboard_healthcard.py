@@ -1,10 +1,8 @@
 from tkinter import *
 from tkinter import filedialog
 import window
-import dashboard_vaccine
 from PIL import Image, ImageTk
-import functions
-import protocol
+import functions, protocol
 from networking import run_background
 
 # For displaying images
@@ -43,13 +41,13 @@ def uploadNewImage(image_num=-1):
 
 
 
-
 # Function which displays the dashboard window
 def dashboard():
     # Setting window title
     window.window.title('Healthcard')
 
     # Creating a canvas within the window to place items onto
+    window.canvas.delete("all")
     window.canvas = Canvas(
         window.window,
         bg = "#FFFFFF",
@@ -61,18 +59,6 @@ def dashboard():
     )
     window.canvas.place(x = 0, y = 0)
 
-    # Adding the tabs
-    functions.draw_tabs()
-
-    # Adding "myHealth Dashboard" text to top left
-    window.canvas.create_text(
-        106.0,
-        52.99999999999999,
-        anchor="nw",
-        text="myHealth Dashboard",
-        fill="#FF8888",
-        font=("Inter Medium", 52 * -1)
-    )
 
     # Health card text label
     window.canvas.create_text(
@@ -102,6 +88,9 @@ def dashboard():
         667.0,
         fill="#FFFFFF",
         outline="#FF8888")
+
+    # Draw static elements
+    functions.draw_tabs()
 
     # Creating upload button to upload healthcard #1
     global upload_button_image

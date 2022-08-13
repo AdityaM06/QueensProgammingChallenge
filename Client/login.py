@@ -78,6 +78,9 @@ def goToDashboard():
     window.window.geometry("1280x720")
     window.window.configure(bg = "#FFFFFF")
     window.window.resizable(False, False)
+
+    # Creating mock canvas to be destroyed
+    window.canvas = Canvas( window.window )
     
     # Go to dashboard
     dashboard_healthcard.dashboard()
@@ -111,7 +114,6 @@ def login():
     )
     window.canvas.place(x=0, y=0)
 
-    # Adding elements to the window
     # Adding sign in text to top left of login window
     window.canvas.create_text(
         50.0,
