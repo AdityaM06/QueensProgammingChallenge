@@ -24,23 +24,8 @@ family_medical_history_str = 'Family medical history: '
 
 # Function which displays the information dashboard window
 def dashboard_information():
-    # Clearing the previous window
-    window.canvas.delete(all)
-
-    # Changing the window title
-    window.window.title('Information')
-
-    # Creating a canvas within the window to place items onto
-    window.canvas = Canvas(
-        window.window,
-        bg="#FFFFFF",
-        height=720,
-        width=1280,
-        bd=0,
-        highlightthickness=0,
-        relief="ridge"
-    )
-    window.canvas.place(x=0, y=0)
+    # Setting the window
+    functions.create_canvas()
 
     # Adding the tabs
     functions.draw_tabs()

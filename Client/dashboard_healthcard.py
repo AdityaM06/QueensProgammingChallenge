@@ -43,22 +43,8 @@ def uploadNewImage(image_num=-1):
 
 # Function which displays the dashboard window
 def dashboard():
-    # Setting window title
-    window.window.title('Healthcard')
-
-    # Creating a canvas within the window to place items onto
-    window.canvas.delete("all")
-    window.canvas = Canvas(
-        window.window,
-        bg = "#FFFFFF",
-        height = 720,
-        width = 1280,
-        bd = 0,
-        highlightthickness = 0,
-        relief = "ridge"
-    )
-    window.canvas.place(x = 0, y = 0)
-
+    # Setting the main window
+    functions.create_canvas('Healthcard')
 
     # Health card text label
     window.canvas.create_text(
