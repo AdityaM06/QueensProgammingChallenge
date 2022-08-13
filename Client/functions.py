@@ -5,6 +5,10 @@ from tkinter import *
 import dashboard_healthcard, dashboard_vaccine
 import window
 import time
+from PIL import Image
+import window
+import dashboard_vaccine, dashboard_healthcard, dashboard_appointments
+
 
 """ https://www.c-sharpcorner.com/article/how-to-validate-an-email-address-in-python/ """
 def check_email(email):
@@ -17,6 +21,10 @@ def check_password(password):
     if len(password) > 20: return protocol.TOO_LONG
     regex = "^[A-Za-z0-9!@#$%&]+$"
     return protocol.VALID_INPUT if re.search(regex, password) else protocol.INVALID_INPUT
+
+def check_date(date):
+    regex = r'^\d{4}[/][0-1]\d[/][0-3]\d[ ][0-2]\d[:][0-5]\d'
+    return protocol.VALID_INPUT if re.search(regex, date) else protocol.INVALID_INPUT
 
 """ Returns PIL Image from base64 string """
 def base64_to_Image(data : str):
@@ -143,7 +151,7 @@ def draw_tabs():
         image=appointments_button_image,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: print("button_3 clicked"),
+        command=dashboard_appointments.dashboard_appointments,
         relief="flat"
     )
     appointments_button.place(
@@ -170,8 +178,3 @@ def draw_tabs():
         width=266.31103515625,
         height=59.18022918701172
     )
-
-
-""" TEST """
-if __name__ == "__main__":
-    print( compress_vaccine_data ( decompress_vaccine_data ( "4F6A19B" ) ) )

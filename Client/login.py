@@ -1,7 +1,7 @@
 from tkinter import *
 import window, register, dashboard_healthcard
 import protocol
-from functions import check_email, check_password
+import functions
 from networking import run_background
 
 
@@ -23,7 +23,7 @@ def login_verify():
     password = window.password_verify.get()
 
     # Verify proper email
-    match (check_email(username)):
+    match (functions.check_email(username)):
         case protocol.TOO_LONG:
             email_small_text.config(text="Email is too long!")
             return
@@ -36,7 +36,7 @@ def login_verify():
             pass
 
     # Verify proper password
-    match (check_password(password)):
+    match (functions.check_password(password)):
         case protocol.TOO_LONG:
             password_small_text.config(text="Password is too long!")
             return

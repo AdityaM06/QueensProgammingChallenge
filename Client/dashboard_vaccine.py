@@ -1,5 +1,7 @@
 from ast import Delete
 from tkinter import *
+import window
+import functions
 from networking import run_background
 import window, protocol
 from math import floor
@@ -27,7 +29,7 @@ def sendVaccineThread():
         window.DATA[protocol.DATA_INDEXES[protocol.VACCINES]] = functions.compress_vaccine_data(info)
         window.NET.updatePersonalData(window.DATA, protocol.VACCINES)
         sendQueue = []
-    
+
     sendThreadExists = False
 
 
@@ -81,7 +83,7 @@ def onClickChange(event=None):
     vaccine_list [index] = next_cycle( vaccine_list[index] )
     sendQueue.append(vaccine_list)
     if not sendThreadExists: run_background(sendVaccineThread)
-    
+
     # Draw change locally
     clear_vaccine_table()
     drawFromData( vaccine_list )
@@ -121,6 +123,18 @@ def vaccine_tab():
     window.canvas.bind("<Button 1>", onClickChange)
 
     # Draw static elements
+    functions.draw_tabs()
+    # Adding "myHealth Dashboard" text to top left
+    window.canvas.create_text(
+        106.0,
+        52.99999999999999,
+        anchor="nw",
+        text="myHealth Dashboard",
+        fill="#FF8888",
+        font=("Inter Medium", 52 * -1)
+    )
+
+    # Adding tabs
     functions.draw_tabs()
 
     # Creating the table
