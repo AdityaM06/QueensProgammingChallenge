@@ -33,12 +33,9 @@ def uploadNewImage(image_num=-1):
         window.canvas.create_image(698, 310, anchor="nw", image=_image)
 
     # Write new data to server
-    image = image.resize((470//2, 350//2))
-    window.DATA[protocol.DATA_INDEXES[protocol.HEALTHCARD]] [image_num] = functions.Image_to_base64(image)
-    run_background ( window.NET.updatePersonalData, window.DATA, protocol.HEALTHCARD )
-    
-
-
+    image = image.resize((470 // 2, 350 // 2))
+    window.DATA[protocol.DATA_INDEXES[protocol.HEALTHCARD]][image_num] = functions.Image_to_base64(image)
+    run_background(window.NET.updatePersonalData, window.DATA, protocol.HEALTHCARD)
 
 
 # Function which displays the dashboard window
@@ -48,7 +45,7 @@ def dashboard():
 
     # Health card text label
     window.canvas.create_text(
-        1280//2,
+        1280 // 2,
         247.37673950195312,
         anchor="center",
         text="Health Card",
@@ -64,7 +61,6 @@ def dashboard():
         667.0,
         fill="#FFFFFF",
         outline="#FF8888")
-    
 
     # Creating additional box for second image
     window.canvas.create_rectangle(
@@ -86,7 +82,7 @@ def dashboard():
         image=upload_button_image,
         borderwidth=0,
         highlightthickness=0,
-        command= lambda: uploadNewImage(image_num=0),
+        command=lambda: uploadNewImage(image_num=0),
         relief="flat"
     )
     upload_button1.place(
@@ -109,7 +105,7 @@ def dashboard():
         image=upload_button_image,
         borderwidth=0,
         highlightthickness=0,
-        command= lambda: uploadNewImage(image_num=1),
+        command=lambda: uploadNewImage(image_num=1),
         relief="flat"
     )
     upload_button2.place(
@@ -128,8 +124,10 @@ def dashboard():
     )
 
     global label_image1, label_image2
-    label_image1 = ImageTk.PhotoImage( functions.base64_to_Image ( window.DATA[protocol.DATA_INDEXES[protocol.HEALTHCARD]] [0] ).resize((470, 350)) )
-    label_image2 = ImageTk.PhotoImage( functions.base64_to_Image ( window.DATA[protocol.DATA_INDEXES[protocol.HEALTHCARD]] [1] ).resize((470, 350)) )
+    label_image1 = ImageTk.PhotoImage(
+        functions.base64_to_Image(window.DATA[protocol.DATA_INDEXES[protocol.HEALTHCARD]][0]).resize((470, 350)))
+    label_image2 = ImageTk.PhotoImage(
+        functions.base64_to_Image(window.DATA[protocol.DATA_INDEXES[protocol.HEALTHCARD]][1]).resize((470, 350)))
 
     # Image #1
     window.canvas.create_image(
