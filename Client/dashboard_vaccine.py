@@ -1,12 +1,9 @@
 from ast import Delete
 from tkinter import *
-import window
-import functions
 from networking import run_background
 import window, protocol
 from math import floor
 import functions, time
-import threading
 
 # If send thread already exists
 sendThreadExists = False

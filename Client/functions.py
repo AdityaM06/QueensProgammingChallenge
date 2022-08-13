@@ -2,10 +2,6 @@ import re, protocol, base64
 from io import BytesIO
 import PIL.Image
 from tkinter import *
-import dashboard_healthcard, dashboard_vaccine
-import window
-import time
-from PIL import Image
 import window
 import dashboard_vaccine, dashboard_healthcard, dashboard_appointments
 

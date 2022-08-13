@@ -3,7 +3,6 @@ from datetime import datetime
 import window
 import functions
 import protocol
-from networking import run_background
 
 appointments_list = []
 appointment_x = None

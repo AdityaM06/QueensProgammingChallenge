@@ -1,4 +1,3 @@
-import protocol
 
 # =================================================
 # Variables to be shared across python scripts

@@ -1,7 +1,7 @@
 import window
-import login, register, fail_window
+import login, fail_window
 from tkinter import *
-from networking import Network, MockNetwork, run_background
+from networking import Network, run_background
 
 # Creating the window
 window.window = Tk()
