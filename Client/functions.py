@@ -3,7 +3,7 @@ from io import BytesIO
 import PIL.Image
 from tkinter import *
 import window
-import dashboard_vaccine, dashboard_healthcard, dashboard_appointments
+import dashboard_vaccine, dashboard_healthcard, dashboard_appointments, dashboard_information
 
 
 """ https://www.c-sharpcorner.com/article/how-to-validate-an-email-address-in-python/ """
@@ -173,7 +173,7 @@ def draw_tabs():
         image=information_button_image,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: print("button_4 clicked"),
+        command=dashboard_information.dashboard_information,
         relief="flat"
     )
     information_button.place(
