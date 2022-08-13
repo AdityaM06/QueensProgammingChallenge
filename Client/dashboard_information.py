@@ -34,16 +34,6 @@ def dashboard_information():
     global edit_button_image
     edit_button_image = PhotoImage(file='assets/edit_icon.png')
 
-    # Adding "myHealth Dashboard" text to top left
-    window.canvas.create_text(
-        106.0,
-        52.99999999999999,
-        anchor="nw",
-        text="myHealth Dashboard",
-        fill="#FF8888",
-        font=("Inter Medium", 52 * -1)
-    )
-
     # Adding the main rectangle
     window.canvas.create_rectangle(
         107.0,
