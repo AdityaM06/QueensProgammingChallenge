@@ -1,4 +1,4 @@
-import re, protocol, base64
+import re, protocol, base64, datetime
 from io import BytesIO
 import PIL.Image
 from tkinter import *
@@ -18,9 +18,17 @@ def check_password(password):
     regex = "^[A-Za-z0-9!@#$%&]+$"
     return protocol.VALID_INPUT if re.search(regex, password) else protocol.INVALID_INPUT
 
-def check_date(date):
-    regex = r'^\d{4}[/][0-1]\d[/][0-3]\d[ ][0-2]\d[:][0-5]\d'
-    return protocol.VALID_INPUT if re.search(regex, date) else protocol.INVALID_INPUT
+
+""" Checks if date input from user was valid """
+def check_date(date : str):
+    if len(date) != 16: return protocol.INVALID_INPUT
+    try:
+        datetime.datetime.strptime(date, '%Y/%m/%d %H:%M')
+        return protocol.VALID_INPUT
+    except Exception as e:
+        print(e)
+        return protocol.INVALID_INPUT
+
 
 """ Returns PIL Image from base64 string """
 def base64_to_Image(data : str):

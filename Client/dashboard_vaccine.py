@@ -17,7 +17,7 @@ def sendVaccineThread():
     sendThreadExists = True
 
     # Don't want to send to server many times
-    time.sleep(3)
+    time.sleep(2)
 
     # For every instance we wanted to send
     if len(sendQueue) > 0:
