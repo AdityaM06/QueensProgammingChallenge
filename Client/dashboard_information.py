@@ -22,7 +22,6 @@ current_medical_conditions_str = 'Current medical conditions: '
 family_medical_history = []
 family_medical_history_str = 'Family medical history: '
 
-
 # Function which displays the information dashboard window
 def dashboard_information():
     # Clearing the previous window
@@ -45,6 +44,10 @@ def dashboard_information():
 
     # Adding the tabs
     functions.draw_tabs()
+
+    # Image for edit icon
+    global edit_button_image
+    edit_button_image = PhotoImage(file='assets/edit_icon.png')
 
     # Adding "myHealth Dashboard" text to top left
     window.canvas.create_text(
@@ -194,3 +197,4 @@ def dashboard_information():
         fill="#FF8888",
         font=("Inter Medium", 20)
     )
+
