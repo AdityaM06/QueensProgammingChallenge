@@ -5,14 +5,18 @@ from tkinter import *
 import window
 import dashboard_vaccine, dashboard_healthcard, dashboard_appointments, dashboard_information
 
-
 """ https://www.c-sharpcorner.com/article/how-to-validate-an-email-address-in-python/ """
+
+
 def check_email(email):
     if len(email) > 25: return protocol.TOO_LONG
     regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
     return protocol.VALID_INPUT if re.search(regex, email) else protocol.INVALID_INPUT
 
+
 """ https://stackoverflow.com/questions/89909/how-do-i-verify-that-a-string-only-contains-letters-numbers-underscores-and-da """
+
+
 def check_password(password):
     if len(password) > 20: return protocol.TOO_LONG
     regex = "^[A-Za-z0-9!@#$%&]+$"
@@ -20,7 +24,9 @@ def check_password(password):
 
 
 """ Checks if date input from user was valid """
-def check_date(date : str):
+
+
+def check_date(date: str):
     if len(date) != 16: return protocol.INVALID_INPUT
     try:
         datetime.datetime.strptime(date, '%Y/%m/%d %H:%M')
@@ -31,13 +37,17 @@ def check_date(date : str):
 
 
 """ Returns PIL Image from base64 string """
-def base64_to_Image(data : str):
-    im_bytes = base64.b64decode(data.encode())   # im_bytes is a binary image
-    im_file = BytesIO(im_bytes)                  # convert image to file-like object
-    return PIL.Image.open(im_file)                   # img is now PIL Image object
+
+
+def base64_to_Image(data: str):
+    im_bytes = base64.b64decode(data.encode())  # im_bytes is a binary image
+    im_file = BytesIO(im_bytes)  # convert image to file-like object
+    return PIL.Image.open(im_file)  # img is now PIL Image object
 
 
 """ Return base64 string from PIL image"""
+
+
 def Image_to_base64(img):
     img = img.convert('RGB')
     im_file = BytesIO()
@@ -48,7 +58,9 @@ def Image_to_base64(img):
 
 
 """ Takes vaccine data, de-compresses into list"""
-def decompress_vaccine_data(data : str):
+
+
+def decompress_vaccine_data(data: str):
     # Output var
     out = []
 
@@ -63,7 +75,7 @@ def decompress_vaccine_data(data : str):
         while True:
             num = data[:i]
             if not num.isnumeric():
-                ltr = data[i-1]
+                ltr = data[i - 1]
                 data = data[i:]
                 i = 1
                 break
@@ -71,12 +83,14 @@ def decompress_vaccine_data(data : str):
 
         num = int(num[:-1])
         for _ in range(num):
-            out.append ( ltr )
+            out.append(ltr)
 
     return out
 
 
 """ Takes de-compressed list, compresses into string """
+
+
 def compress_vaccine_data(data):
     # Output string
     out = ""
@@ -100,6 +114,8 @@ def compress_vaccine_data(data):
 
 
 """ Draws tabs for all the tabs """
+
+
 def draw_tabs():
     # Adding "myHealth Dashboard" text to top left
     window.canvas.create_text(
@@ -182,3 +198,23 @@ def draw_tabs():
         width=266.31103515625,
         height=59.18022918701172
     )
+
+# Function which creates the canvas
+def create_canvas(window_title: str):
+    # Clearing the window
+    window.canvas.delete(all)
+
+    # Setting window title
+    window.window.title(window_title)
+
+    # Creating a canvas within the window to place items onto
+    window.canvas = Canvas(
+        window.window,
+        bg="#FFFFFF",
+        height=720,
+        width=1280,
+        bd=0,
+        highlightthickness=0,
+        relief="ridge"
+    )
+    window.canvas.place(x=0, y=0)

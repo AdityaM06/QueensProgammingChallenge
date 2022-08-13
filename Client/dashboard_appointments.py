@@ -64,20 +64,22 @@ def date_verify():
             
         case protocol.VALID_INPUT:
             pass
-    
+
+    # Adding the appointments and going back to the main window
     add_appointment(title_str, date_time_str)
     dashboard_appointments()
 
 
 # Function to make a new window to add an appointment
 def add_appointment_window():
+    # Adding the appointment window
     global appointment_window
-
     appointment_window = Toplevel(window.window)
     appointment_window.title('Add Appointment')
     appointment_window.geometry("500x600")
     appointment_window.configure(bg="white")
 
+    # Setting the date and title string variables for the entry fields
     global date_time, title
     date_time = StringVar()
     title = StringVar()
@@ -92,7 +94,6 @@ def add_appointment_window():
         highlightthickness=0,
         relief="ridge"
     )
-
     canvas.place(x=0, y=0)
 
     # Add appointment text
@@ -184,6 +185,7 @@ def add_appointment_window():
         height=30.0
     )
 
+    # Setting up the error text
     global error_text
     error_text = Label(appointment_window, text='', fg='red', bg='white')
     error_text.place(x=50, y=141)
@@ -191,36 +193,11 @@ def add_appointment_window():
 
 # Main screen for appointments
 def dashboard_appointments():
-    # Clearing the window
-    window.canvas.delete(all)
-
-    # Setting window title
-    window.window.title('Appointments')
-
-    # Creating a canvas within the window to place items onto
-    window.canvas = Canvas(
-        window.window,
-        bg="#FFFFFF",
-        height=720,
-        width=1280,
-        bd=0,
-        highlightthickness=0,
-        relief="ridge"
-    )
-    window.canvas.place(x=0, y=0)
+    # Setting the window
+    functions.create_canvas('Appointments')
 
     # Adding the tabs
     functions.draw_tabs()
-
-    # Adding "myHealth Dashboard" text to top left
-    window.canvas.create_text(
-        106.0,
-        52.99999999999999,
-        anchor="nw",
-        text="myHealth Dashboard",
-        fill="#FF8888",
-        font=("Inter Medium", 52 * -1)
-    )
 
     # Adding the suggestions table
     global suggestions_schedule_image
