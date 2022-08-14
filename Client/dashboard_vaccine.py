@@ -9,9 +9,7 @@ import functions, time
 sendThreadExists = False
 sendQueue = []
 
-""" Sends vaccine info to server """
-
-
+# Sends vaccine info to server
 def sendVaccineThread():
     # Don't spawn more than one
     global sendThreadExists, sendQueue
@@ -32,16 +30,12 @@ def sendVaccineThread():
     sendThreadExists = False
 
 
-""" Draws table image over to hide previous symbols """
-
-
+# Draws table image over to hide previous symbols
 def clear_vaccine_table():
     window.canvas.delete("symbol")
 
 
-""" Draws a square on the canvas given coord and size """
-
-
+# Draws a square on the canvas given coord and size
 def draw_square(x: int, y: int, r: int = 6):
     window.canvas.create_rectangle(x - r, y - r, x + r, y + r, fill="#FF8888", outline="#FF8888", tags=("symbol"))
 
@@ -50,9 +44,7 @@ def draw_square_tile(row: int, col: int):
     draw_square(268 + col * tile_w + tile_w // 2, 309 + row * tile_h + tile_h // 2)
 
 
-""" Draws a circle on the canvas given coord and size """
-
-
+# Draws a circle on the canvas given coord and size
 def draw_circle(x: int, y: int, r: int = 6):
     return window.canvas.create_oval(x - r, y - r, x + r, y + r, fill="#FF8888", outline="#FF8888", tags=("symbol"))
 
@@ -61,9 +53,7 @@ def draw_circle_tile(row: int, col: int):
     draw_circle(268 + col * tile_w + tile_w // 2, 309 + row * tile_h + tile_h // 2)
 
 
-""" Draws all symbols based on data """
-
-
+# Draws all symbols based on data
 def drawFromData(data):
     # "N" : Nothing, "U" : Upcoming, "C" : completed
     for i in range(len(data)):
@@ -77,6 +67,7 @@ def drawFromData(data):
 """ (268, 309) x (1172, 681) """
 
 
+# Functon which changes the symbol when clicked
 def onClickChange(event=None):
     global sendThreadExists, sendQueue
 
@@ -105,9 +96,7 @@ def onClickChange(event=None):
     drawFromData(vaccine_list)
 
 
-""" Cycle between three options, NUC """
-
-
+# Cycle between three options, NUC
 def next_cycle(s: str):
     if s == "N": return "U"
     if s == "U": return "C"
