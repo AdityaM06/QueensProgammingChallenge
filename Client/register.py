@@ -1,13 +1,14 @@
 from tkinter import *
-import window, login
+import window
+import login
 import protocol
 from functions import check_email, check_password
 
-
 # Used for displaying errors
-email_small_text    = None
+email_small_text = None
 password_small_text = None
-bottom_text         = None
+bottom_text = None
+
 
 # Functions which registers the user
 def register_user():
@@ -45,7 +46,6 @@ def register_user():
 
         case protocol.VALID_INPUT:
             pass
-
 
     # Send request to Server
     print(f"[REGISTER] User: {username}    Pass: {password}")
@@ -201,9 +201,12 @@ def register():
 
     # Configuring error messages text
     global email_small_text, password_small_text, bottom_text
-    email_small_text    = Label(window.window, text='', fg='red', bg='white'); email_small_text.place(x=60, y=235)
-    password_small_text = Label(window.window, text='', fg='red', bg='white'); password_small_text.place(x=60, y=383)
-    bottom_text         = Label(window.window, text='', fg='white', bg='white', font="MS_Sans_Serif 14"); bottom_text.place(x=window.WIDTH//2, y=570, anchor="center")
+    email_small_text = Label(window.window, text='', fg='red', bg='white');
+    email_small_text.place(x=60, y=235)
+    password_small_text = Label(window.window, text='', fg='red', bg='white');
+    password_small_text.place(x=60, y=383)
+    bottom_text = Label(window.window, text='', fg='white', bg='white', font="MS_Sans_Serif 14");
+    bottom_text.place(x=window.WIDTH // 2, y=570, anchor="center")
 
     # Setting the password visibility to hidden by default
     toggle_password_visible()
