@@ -4,7 +4,6 @@ import protocol
 import functions
 from networking import run_background
 
-
 # Used for displaying errors
 email_small_text = None
 password_small_text = None
@@ -17,7 +16,7 @@ def login_verify():
     email_small_text.config(text="")
     password_small_text.config(text="")
     bottom_text.config(text="")
-    
+
     # Get user input
     username = window.username_verify.get()
     password = window.password_verify.get()
@@ -47,7 +46,7 @@ def login_verify():
 
         case protocol.VALID_INPUT:
             pass
-        
+
     # Send request to server
     print(f"[LOGIN] User: {username}    Pass: {password}")
     response = window.NET.login(username, password)
@@ -56,12 +55,11 @@ def login_verify():
     if response == protocol.LOGIN_FAIL:
         # Display error to user
         bottom_text.config(text="Login Failed! Wrong password? User doesn't exist", fg='red')
-        
+
     elif response == protocol.LOGIN_SUCCESS:
         # Save data from server
         bottom_text.config(text="Successfully Signed in!", fg='green')
         run_background(recvUserData)
-
 
 
 # Receive user data after login and change to dashboard screen
@@ -76,15 +74,14 @@ def goToDashboard():
     window.window.destroy()
     window.window = Tk()
     window.window.geometry("1280x720")
-    window.window.configure(bg = "#FFFFFF")
+    window.window.configure(bg="#FFFFFF")
     window.window.resizable(False, False)
 
     # Creating mock canvas to be destroyed
-    window.canvas = Canvas( window.window )
-    
+    window.canvas = Canvas(window.window)
+
     # Go to dashboard
     dashboard_healthcard.dashboard()
-
 
 
 # Function which allows user to toggle password visibility in the entry field
@@ -100,7 +97,7 @@ def login():
     # Defining variables
     window.username_verify = StringVar()
     window.password_verify = StringVar()
-    
+
     # Resetting the window
     window.canvas.destroy()
     window.canvas = Canvas(
@@ -229,9 +226,12 @@ def login():
 
     # Configuring error messages
     global email_small_text, password_small_text, bottom_text
-    email_small_text    = Label(window.window, text='', fg='red', bg='white'); email_small_text.place(x=60, y=235)
-    password_small_text = Label(window.window, text='', fg='red', bg='white'); password_small_text.place(x=60, y=383)
-    bottom_text         = Label(window.window, text='', fg='white', bg='white', font="MS_Sans_Serif 14"); bottom_text.place(x=window.WIDTH//2, y=570, anchor="center")
+    email_small_text = Label(window.window, text='', fg='red', bg='white');
+    email_small_text.place(x=60, y=235)
+    password_small_text = Label(window.window, text='', fg='red', bg='white');
+    password_small_text.place(x=60, y=383)
+    bottom_text = Label(window.window, text='', fg='white', bg='white', font="MS_Sans_Serif 14");
+    bottom_text.place(x=window.WIDTH // 2, y=570, anchor="center")
 
     # Setting the password to hidden by default
     toggle_password_visible()
