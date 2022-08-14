@@ -14,4 +14,5 @@ def fail_window():
         relief="ridge"
     )
 
+    # Adding the text which says failed to connect
     Label(window.window, text='Failed to\nConnect!', fg='#ff8787', bg='white', font="MS_Sans_Serif 40").place(x=window.WIDTH//2, y=window.HEIGHT//2, anchor="center")
