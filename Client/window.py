@@ -1,8 +1,6 @@
-
 # =================================================
 # Variables to be shared across python scripts
 # =================================================
-
 
 # Tkinter
 window = None
