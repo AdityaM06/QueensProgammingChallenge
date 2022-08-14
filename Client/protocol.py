@@ -1,11 +1,9 @@
-
 """ Request to register account """
 REGISTER_REQ = 0
 """ Failed to register """
 REGISTER_FAIL = 1
 """ Successfully registered """
 REGISTER_SUCCESS = 2
-
 
 """ Request to login account """
 LOGIN_REQ = 3
@@ -16,8 +14,6 @@ LOGIN_SUCCESS = 5
 
 """ Updating personal info """
 UPDATE_INFO = 6
-
-
 
 """ Email or password is too long """
 TOO_LONG = 7
@@ -33,4 +29,4 @@ HEALTHCARD = 12
 INFORMATION = 13
 
 """ For indexing the right data """
-DATA_INDEXES = {INFORMATION : 0, APPOINMENTS : 1, VACCINES : 2, HEALTHCARD : 3}
+DATA_INDEXES = {INFORMATION: 0, APPOINMENTS: 1, VACCINES: 2, HEALTHCARD: 3}
