@@ -26,7 +26,7 @@ def add_appointment(name: str, date: str):
 
     # Update on server side
     window.DATA[protocol.DATA_INDEXES[protocol.APPOINMENTS]] = appointments_list
-    run_background( window.NET.updatePersonalData, window.DATA, protocol.APPOINMENTS )
+    run_background(window.NET.updatePersonalData, window.DATA, protocol.APPOINMENTS)
 
     # Debug
     print(f"[APPOINTMENTS] {appointments_list}")
@@ -40,11 +40,11 @@ def filter_appointments():
     while True:
         if len(appointments_list) == 0: break
 
-        if datetime.strptime( appointments_list[0]['date'], "%Y/%m/%d %H:%M") < now:
+        if datetime.strptime(appointments_list[0]['date'], "%Y/%m/%d %H:%M") < now:
             del appointments_list[0]
         else:
             break
-        
+
 
 # Function which verifies the user inputs for the date and time
 def date_verify():
@@ -61,7 +61,7 @@ def date_verify():
             # Invalid
             error_text.config(text='Incorrect format or incorrect date, please enter a valid date')
             return
-            
+
         case protocol.VALID_INPUT:
             pass
 
@@ -222,19 +222,16 @@ def dashboard_appointments():
         fill="#FF8888",
         font=("Inter Medium", 26)
     )
-    
+
     # Global vars
     global appointment_x, appointment_y, y_increment, appointments_list
     appointment_x = 176
     appointment_y = 283
     y_increment = 40
 
-
     # Use appointment data from server
     appointments_list = window.DATA[protocol.DATA_INDEXES[protocol.APPOINMENTS]]
     filter_appointments()
-
-
 
     for item in appointments_list:
         date = datetime.strptime(item['date'], r"%Y/%m/%d %H:%M")
