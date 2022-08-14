@@ -60,6 +60,7 @@ def dashboard_information():
         borderwidth=0,
         highlightthickness=0,
         command=lambda: print('Change this'),
+        background = 'white',
         relief="flat"
     )
     last_name_button.place(
@@ -85,6 +86,7 @@ def dashboard_information():
         borderwidth=0,
         highlightthickness=0,
         command=lambda: print('Change this'),
+        background = 'white',
         relief="flat"
     )
     first_name_button.place(
@@ -110,6 +112,7 @@ def dashboard_information():
         borderwidth=0,
         highlightthickness=0,
         command=lambda: print('Change this'),
+        background = 'white',
         relief="flat"
     )
     middle_name_button.place(
@@ -135,6 +138,7 @@ def dashboard_information():
         borderwidth=0,
         highlightthickness=0,
         command=lambda: print('Change this'),
+        background = 'white',
         relief="flat"
     )
     dob_edit_button.place(
@@ -170,6 +174,7 @@ def dashboard_information():
         borderwidth=0,
         highlightthickness=0,
         command=lambda: print('Change this'),
+        background = 'white',
         relief="flat"
     )
     address_edit_button.place(
@@ -195,6 +200,7 @@ def dashboard_information():
         borderwidth=0,
         highlightthickness=0,
         command=lambda: print('Change this'),
+        background = 'white',
         relief="flat"
     )
     phone_edit_button.place(
@@ -220,6 +226,7 @@ def dashboard_information():
         borderwidth=0,
         highlightthickness=0,
         command=lambda: print('Change this'),
+        background = 'white',
         relief="flat"
     )
     height_edit_button.place(
@@ -245,6 +252,7 @@ def dashboard_information():
         borderwidth=0,
         highlightthickness=0,
         command=lambda: print('Change this'),
+        background = 'white',
         relief="flat"
     )
     weight_edit_button.place(
@@ -284,6 +292,7 @@ def dashboard_information():
         borderwidth=0,
         highlightthickness=0,
         command=lambda: print('Change this'),
+        background = 'white',
         relief="flat"
     )
     prescriptions_edit_button.place(
@@ -309,6 +318,7 @@ def dashboard_information():
         borderwidth=0,
         highlightthickness=0,
         command=lambda: print('Change this'),
+        background = 'white',
         relief="flat"
     )
     current_medical_conditions_edit_button.place(
@@ -334,6 +344,7 @@ def dashboard_information():
         borderwidth=0,
         highlightthickness=0,
         command=lambda: print('Change this'),
+        background = 'white',
         relief="flat"
     )
     family_medical_history_edit_button.place(
