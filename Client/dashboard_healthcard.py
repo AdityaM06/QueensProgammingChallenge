@@ -123,6 +123,7 @@ def dashboard():
         font=("Inter Regular", 13 * -1)
     )
 
+    # Converting base64 to tkinter image
     global label_image1, label_image2
     label_image1 = ImageTk.PhotoImage(
         functions.base64_to_Image(window.DATA[protocol.DATA_INDEXES[protocol.HEALTHCARD]][0]).resize((470, 350)))
