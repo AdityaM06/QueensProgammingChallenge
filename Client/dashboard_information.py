@@ -22,10 +22,11 @@ current_medical_conditions_str = 'Current medical conditions: '
 family_medical_history = []
 family_medical_history_str = 'Family medical history: '
 
+
 # Function which displays the information dashboard window
 def dashboard_information():
     # Setting the window
-    functions.create_canvas()
+    functions.create_canvas('Information')
 
     # Adding the tabs
     functions.draw_tabs()
