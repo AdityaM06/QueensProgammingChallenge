@@ -44,7 +44,7 @@ def filter_appointments():
             del appointments_list[0]
         else:
             break
-
+        
 
 # Function which verifies the user inputs for the date and time
 def date_verify():
@@ -61,19 +61,19 @@ def date_verify():
             # Invalid
             error_text.config(text='Incorrect format or incorrect date, please enter a valid date')
             return
-
+            
         case protocol.VALID_INPUT:
             pass
-
+    
     # Adding the appointments and going back to the main window
     add_appointment(title_str, date_time_str)
-    dashboard_appointments()
+    dashboard()
 
 
 # Function to make a new window to add an appointment
 def add_appointment_window():
-    # Adding the appointment window
     global appointment_window
+
     appointment_window = Toplevel(window.window)
     appointment_window.title('Add Appointment')
     appointment_window.geometry("500x600")
@@ -94,6 +94,7 @@ def add_appointment_window():
         highlightthickness=0,
         relief="ridge"
     )
+
     canvas.place(x=0, y=0)
 
     # Add appointment text
@@ -111,7 +112,7 @@ def add_appointment_window():
         50.0,
         239.0,
         anchor="nw",
-        text="Please format yyyy/mm/dd HH:MM (24h time)",
+        text="Please format YYYY/MM/DD HH:MM (24h time)",
         fill="#FF8888",
         font=("Inter Medium", 15)
     )
@@ -192,12 +193,22 @@ def add_appointment_window():
 
 
 # Main screen for appointments
-def dashboard_appointments():
+def dashboard():
     # Setting the window
     functions.create_canvas('Appointments')
 
     # Adding the tabs
     functions.draw_tabs()
+
+    # Adding "myHealth Dashboard" text to top left
+    window.canvas.create_text(
+        106.0,
+        52.99999999999999,
+        anchor="nw",
+        text="myHealth Dashboard",
+        fill="#FF8888",
+        font=("Inter Medium", 52 * -1)
+    )
 
     # Adding the suggestions table
     global suggestions_schedule_image
@@ -222,16 +233,19 @@ def dashboard_appointments():
         fill="#FF8888",
         font=("Inter Medium", 26)
     )
-
+    
     # Global vars
     global appointment_x, appointment_y, y_increment, appointments_list
     appointment_x = 176
     appointment_y = 283
     y_increment = 40
 
+
     # Use appointment data from server
     appointments_list = window.DATA[protocol.DATA_INDEXES[protocol.APPOINMENTS]]
     filter_appointments()
+
+
 
     for item in appointments_list:
         date = datetime.strptime(item['date'], r"%Y/%m/%d %H:%M")

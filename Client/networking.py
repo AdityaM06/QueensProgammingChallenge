@@ -40,6 +40,7 @@ class Network:
         self._sock.send(self.cipher.getPublicKey().encode(self.FORMAT))
         new_key = self._sock.recv(2048).decode(self.FORMAT)
         self.cipher.addKeyFromString(new_key)
+        print()
         
 
     """ Sends msg to server over socket """

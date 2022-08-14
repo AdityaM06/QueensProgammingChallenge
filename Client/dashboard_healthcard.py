@@ -33,9 +33,10 @@ def uploadNewImage(image_num=-1):
         window.canvas.create_image(698, 310, anchor="nw", image=_image)
 
     # Write new data to server
-    image = image.resize((470 // 2, 350 // 2))
-    window.DATA[protocol.DATA_INDEXES[protocol.HEALTHCARD]][image_num] = functions.Image_to_base64(image)
-    run_background(window.NET.updatePersonalData, window.DATA, protocol.HEALTHCARD)
+    image = image.resize( (470 // 2, 350 // 2) )
+    window.DATA[protocol.DATA_INDEXES[protocol.HEALTHCARD]] [image_num] = functions.Image_to_base64(image)
+    run_background ( window.NET.updatePersonalData, window.DATA, protocol.HEALTHCARD )
+    
 
 
 # Function which displays the dashboard window

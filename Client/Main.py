@@ -25,21 +25,21 @@ window.canvas = Canvas(
 )
 
 # Thread for networking
-window.NET = Network()  # MockNetwork( True | False )
-run_background(window.NET.connect_to, *('localhost', 9848))
+window.NET = Network() # MockNetwork( True | False )
+run_background (window.NET.connect_to, *('localhost', 9848))
 
 # Wait for a response
-while window.NET.status == 0:
-    pass
+while (window.NET.status == 0): pass
 
 # Process response
-if window.NET.status == 1:
+if (window.NET.status == 1):
     # Failed, show fail screen
     fail_window.fail_window()
 
-elif window.NET.status == 2:
+elif (window.NET.status == 2):
     # Starting Screen
     login.login()
+
 
 # Start program
 window.window.resizable(False, False)

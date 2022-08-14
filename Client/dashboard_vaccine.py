@@ -34,6 +34,18 @@ def sendVaccineThread():
 def clear_vaccine_table():
     window.canvas.delete("symbol")
 
+# Draws a square on the canvas given coord and size
+def draw_square(x : int, y : int, r:int = 6):
+    window.canvas.create_rectangle(x-r, y-r, x+r, y+r, fill="#FF8888", outline = "#FF8888", tags=("symbol"))
+def draw_square_tile(row : int, col : int):
+    draw_square(268 + col*tile_w+tile_w//2, 309 + row*tile_h+tile_h//2)
+
+# Draws a circle on the canvas given coord and size
+def draw_circle(x : int, y: int, r:int = 6):
+    return window.canvas.create_oval(x-r, y-r, x+r, y+r, fill="#FF8888", outline = "#FF8888", tags=("symbol"))
+def draw_circle_tile(row : int, col : int):
+    draw_circle(268 + col*tile_w+tile_w//2, 309 + row*tile_h+tile_h//2)
+
 
 # Draws a square on the canvas given coord and size
 def draw_square(x: int, y: int, r: int = 6):
@@ -63,10 +75,7 @@ def drawFromData(data):
         if s == "U": draw_circle_tile(i // 18, i % 18)
         if s == "C": draw_square_tile(i // 18, i % 18)
 
-
 """ (268, 309) x (1172, 681) """
-
-
 # Functon which changes the symbol when clicked
 def onClickChange(event=None):
     global sendThreadExists, sendQueue
@@ -104,7 +113,7 @@ def next_cycle(s: str):
 
 
 # Function which displays the vaccine tab
-def vaccine_tab():
+def dashboard():
     # Used for grid calcs
     global tile_w, tile_h
     tile_h = (372 / 12)

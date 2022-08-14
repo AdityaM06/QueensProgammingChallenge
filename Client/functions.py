@@ -21,6 +21,22 @@ def check_password(password):
     regex = "^[A-Za-z0-9!@#$%&]+$"
     return protocol.VALID_INPUT if re.search(regex, password) else protocol.INVALID_INPUT
 
+# Make sure input data has no special characters
+def check_data_input(input):
+    if len(input) > 40: return protocol.INVALID_INPUT
+    regex = "^[A-Za-z0-9!@#$%&, ]+$"
+    return protocol.VALID_INPUT if re.search(regex, input) else protocol.INVALID_INPUT
+
+
+# Checks if date input from user was valid
+def check_birthdate(date : str):
+    if len(date) != 10: return protocol.INVALID_INPUT
+    try:
+        datetime.datetime.strptime(date, '%Y/%m/%d')
+        return protocol.VALID_INPUT
+    except Exception as e:
+        print(e)
+        return protocol.INVALID_INPUT
 
 # Function that checks if the date input from the user is valid
 def check_date(date: str):
@@ -140,7 +156,7 @@ def draw_tabs():
         image=vaccine_button_image,
         borderwidth=0,
         highlightthickness=0,
-        command=dashboard_vaccine.vaccine_tab,
+        command=dashboard_vaccine.dashboard,
         relief="flat"
     )
     vaccine_button.place(
@@ -158,7 +174,7 @@ def draw_tabs():
         image=appointments_button_image,
         borderwidth=0,
         highlightthickness=0,
-        command=dashboard_appointments.dashboard_appointments,
+        command=dashboard_appointments.dashboard,
         relief="flat"
     )
     appointments_button.place(
@@ -176,7 +192,7 @@ def draw_tabs():
         image=information_button_image,
         borderwidth=0,
         highlightthickness=0,
-        command=dashboard_information.dashboard_information,
+        command=dashboard_information.dashboard,
         relief="flat"
     )
     information_button.place(

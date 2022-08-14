@@ -212,7 +212,7 @@ def login():
     password_toggle_button = Button(
         image=eye_button_image,
         borderwidth=0,
-        background="white",
+        bg="white",
         highlightthickness=0,
         command=toggle_password_visible,
         relief="flat"
@@ -226,10 +226,22 @@ def login():
 
     # Configuring error messages
     global email_small_text, password_small_text, bottom_text
+
+    email_small_text = Label(window.window, text='', fg='red', bg='white')
+    email_small_text.place(x=60, y=235)
+
+    password_small_text = Label(window.window, text='', fg='red', bg='white')
+    password_small_text.place(x=60, y=383)
+
+    bottom_text = Label(window.window, text='', fg='white', bg='white', font="MS_Sans_Serif 14")
+    bottom_text.place(x=window.WIDTH//2, y=570, anchor="center")
+    
     email_small_text = Label(window.window, text='', fg='red', bg='white');
     email_small_text.place(x=60, y=235)
+
     password_small_text = Label(window.window, text='', fg='red', bg='white');
     password_small_text.place(x=60, y=383)
+    
     bottom_text = Label(window.window, text='', fg='white', bg='white', font="MS_Sans_Serif 14");
     bottom_text.place(x=window.WIDTH // 2, y=570, anchor="center")
 
